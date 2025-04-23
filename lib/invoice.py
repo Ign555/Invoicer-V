@@ -1,6 +1,9 @@
 from fpdf import FPDF
-import item as it
 
+if __name__ == "__main__":
+    import item as it
+else:
+    import lib.item as it
 
 class Invoice:
     
@@ -46,7 +49,7 @@ class Invoice:
         pdf = FPDF()
         pdf.set_auto_page_break(auto=True, margin=15)
         pdf.add_page()
-        pdf.add_font('DejaVu', '', 'DejaVuSans.ttf', uni=True)
+        pdf.add_font('DejaVu', '', 'assets/DejaVuSans.ttf', uni=True)
         
         pdf.set_font("Arial", "B", 16)
         pdf.cell(180, 10, "Facture", ln=True, align="C")
