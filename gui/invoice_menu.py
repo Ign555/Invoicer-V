@@ -34,15 +34,27 @@ class InvoiceMenu:
         
         #Invoice text feild
         self.invoice_number_text_input = tk.Entry(self.root, bg="white")
-        self.invoice_number_text_input.place(relx=0.066, rely=0.237, relw=0.266, relh=0.06)
+        self.invoice_number_text_input.place(relx=0.066, rely=0.177, relw=0.266, relh=0.06)
         
         self.invoice_mention_text_input = tk.Entry(self.root, bg="white")
-        self.invoice_mention_text_input.place(relx=0.066, rely=0.384, relw=0.266, relh=0.06)
+        self.invoice_mention_text_input.place(relx=0.066, rely=0.295, relw=0.266, relh=0.06)
+
+        #Invoice button 
+        self.load_customer_button = tk.Button(self.root, text="Choose customer", command=self.app.choose_customer_menu.run)
+        self.load_customer_button.place(relx=0.066, rely=0.414, relw=0.266, relh=0.06)
         
         self.create_invoice_button = tk.Button(self.root, text="Create invoice", command=self.app.create_invoice)
-        self.create_invoice_button.pack(pady=10)
-        self.create_invoice_button = tk.Button(self.root, text="Choose customer", command=self.app.choose_customer_menu.run)
-        self.create_invoice_button.pack(pady=50)
+        self.create_invoice_button.place(relx=0.066, rely=0.80, relw=0.266, relh=0.06)
+        
+        #Product list
+        self.product_list = tk.Listbox(self.root)
+        self.product_list.place(relx=0.066, rely=0.532, relw=0.266, relh=0.237)
+        
+        #Product button
+        self.product_add_button = tk.Button(self.root, text="+", command=self.app.create_invoice)
+        self.product_add_button.place(relx=0.066+0.25, rely=0.502, relw=0.016, relh=0.03)
+        self.product_del_button = tk.Button(self.root, text="-", command=self.app.create_invoice)
+        self.product_del_button.place(relx=0.066+0.23, rely=0.502, relw=0.016, relh=0.03)
 
     def stop(self):
         

@@ -4,6 +4,7 @@ import csv
 
 import gui.invoice_menu as invoice_gui
 import gui.select_customer_menu as select_customer_gui
+import gui.add_product_menu as add_product_menu
 
 import lib.invoice as iv
 import lib.customer as cstr
@@ -36,6 +37,7 @@ class InvoicerV:
         #Declare GUI
         self.invoice_menu = invoice_gui.InvoiceMenu(self)
         self.choose_customer_menu = select_customer_gui.SelectCustomerWindow(self)
+        self.add_proudct_menu = add_product_menu.AddProductMenu(self)
         
         #Run invoice menu
         self.invoice_menu.run()
