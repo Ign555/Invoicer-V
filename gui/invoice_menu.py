@@ -51,7 +51,7 @@ class InvoiceMenu:
         self.product_list.place(relx=0.066, rely=0.532, relw=0.266, relh=0.237)
         
         #Product button
-        self.product_add_button = tk.Button(self.root, text="+", command=self.app.create_invoice)
+        self.product_add_button = tk.Button(self.root, text="+", command=self.app.add_proudct_menu.run)
         self.product_add_button.place(relx=0.066+0.25, rely=0.502, relw=0.016, relh=0.03)
         self.product_del_button = tk.Button(self.root, text="-", command=self.app.create_invoice)
         self.product_del_button.place(relx=0.066+0.23, rely=0.502, relw=0.016, relh=0.03)

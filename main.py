@@ -44,7 +44,9 @@ class InvoicerV:
         
         self.is_running = True 
         
-        
+    def add_button(self):
+        print("tesdt")
+    
     def create_invoice(self):
         
         print("test")
