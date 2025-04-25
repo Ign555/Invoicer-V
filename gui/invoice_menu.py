@@ -32,6 +32,13 @@ class InvoiceMenu:
         help_menu = tk.Menu(self.menu_bar)
         self.menu_bar.add_cascade(label='Help', menu=help_menu)
         
+        #Invoice text feild
+        self.invoice_number_text_input = tk.Entry(self.root, bg="white")
+        self.invoice_number_text_input.place(relx=0.066, rely=0.237, relw=0.266, relh=0.06)
+        
+        self.invoice_mention_text_input = tk.Entry(self.root, bg="white")
+        self.invoice_mention_text_input.place(relx=0.066, rely=0.384, relw=0.266, relh=0.06)
+        
         self.create_invoice_button = tk.Button(self.root, text="Create invoice", command=self.app.create_invoice)
         self.create_invoice_button.pack(pady=10)
         self.create_invoice_button = tk.Button(self.root, text="Choose customer", command=self.app.choose_customer_menu.run)

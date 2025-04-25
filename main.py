@@ -23,7 +23,7 @@ class InvoicerV:
         
         #Define window setting
         self.root.title('Invoicer-V')
-        self.root.configure(bg='white')
+        self.root.configure(bg='#ffe4e1')
         
         #Set window full screen
         screen_width = int(self.root.winfo_screenwidth()/2)
@@ -59,7 +59,7 @@ class InvoicerV:
            
             with open("data/customers.csv", "w", newline="") as customers_file:
                 writer = csv.writer(customers_file, delimiter=";")
-                writer.writerow(["name", "addresse", "immatriculation"])
+                writer.writerow(["name", "address", "immatriculation"])
             
         else:
             #load customer csv here
