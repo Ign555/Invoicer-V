@@ -43,7 +43,7 @@ class InvoicerV:
         #Declare GUI
         self.gui_invoice = invoice_gui.InvoiceMenu(self)
         self.gui_choose_customer = select_customer_gui.SelectCustomerWindow(self)
-        self.gui_add_proudct_row = add_product_gui.AddProductMenu(self)
+        self.gui_add_product_row = add_product_gui.AddProductMenu(self)
         self.gui_add_new_customer = add_customer_gui.AddNewCustomerGUI(self)
         
         #Run invoice menu
@@ -61,7 +61,7 @@ class InvoicerV:
     def add_product(self):
         
         self.product_rows.append(pr.ProductRow(1, "ta", 20))
-        self.gui_add_proudct.close()
+        self.gui_add_product_row.close()
         
         self.gui_invoice.refresh()
     

@@ -21,19 +21,19 @@ class AddProductMenu:
         
         #Product name
         self.product_name_input = tk.Entry(self.root, bg="white")
-        self.product_name_input.place(relx=0.066, rely=0.295, relw=0.266, relh=0.06)
+        self.product_name_input.place(relx=0.05, rely=0.2, relw=0.9, relh=0.10)
         
         #Product Price
         self.product_price_input = tk.Entry(self.root, bg="white")
-        self.product_price_input.place(relx=0.066, rely=0.370, relw=0.266, relh=0.06)
+        self.product_price_input.place(relx=0.05, rely=0.4, relw=0.9, relh=0.10)
         
         #Product Quantity
         self.product_quantity_input = tk.Entry(self.root, bg="white")
-        self.product_quantity_input.place(relx=0.066, rely=0.470, relw=0.266, relh=0.06)
+        self.product_quantity_input.place(relx=0.05, rely=0.60, relw=0.9, relh=0.10)
         
         #Add button
         self.add_product_button = tk.Button(self.root, text="Add", command=self.app.add_product)
-        self.product_quantity_input.place(relx=0.066, rely=0.470, relw=0.266, relh=0.06)
+        self.add_product_button.place(relx=0.05, rely=0.8, relw=0.9, relh=0.15)
         
         self.root.mainloop()
      

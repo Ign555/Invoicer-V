@@ -53,7 +53,7 @@ class InvoiceMenu:
         self.product_list.place(relx=0.066, rely=0.532, relw=0.266, relh=0.237)
         
         #Product button
-        self.product_add_button = tk.Button(self.root, text="+", command=self.app.gui_add_proudct.run)
+        self.product_add_button = tk.Button(self.root, text="+", command=self.app.gui_add_product_row.run)
         self.product_add_button.place(relx=0.066+0.25, rely=0.502, relw=0.016, relh=0.03)
         self.product_del_button = tk.Button(self.root, text="-", command=self.app.create_invoice)
         self.product_del_button.place(relx=0.066+0.23, rely=0.502, relw=0.016, relh=0.03)
@@ -71,10 +71,18 @@ class InvoiceMenu:
             load_customer_button_text = "Choose customer"
         
         self.load_customer_button.config(text=load_customer_button_text)
+    
+    def display_product_rows(self):
         
+        i=1
+        for product_row in self.app.product_rows:
+            self.product_list.insert(i, f"{product_row.qty}x {product_row.name}({product_row.uprice})")
+            i+=1
+    
     def refresh(self):
         
         self.display_customer()
+        self.display_product_rows()
         
         
     def stop(self):
