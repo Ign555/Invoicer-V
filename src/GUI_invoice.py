@@ -40,7 +40,14 @@ class InvoiceMenu:
         self.invoice_mention_text_input.place(relx=0.066, rely=0.295, relw=0.266, relh=0.06)
 
         #Invoice button 
-        self.load_customer_button = tk.Button(self.root, text="Choose customer", command=self.app.choose_customer_menu.run)
+        load_customer_button_text = ""
+        
+        if(self.app.selected_customer.is_defined):
+            load_customer_button_text = selected_customer.name 
+        else: 
+            load_customer_button_text = "Choose customer"
+            
+        self.load_customer_button = tk.Button(self.root, text=load_customer_button_text, command=self.app.gui_choose_customer.run)
         self.load_customer_button.place(relx=0.066, rely=0.414, relw=0.266, relh=0.06)
         
         self.create_invoice_button = tk.Button(self.root, text="Create invoice", command=self.app.create_invoice)
@@ -51,13 +58,16 @@ class InvoiceMenu:
         self.product_list.place(relx=0.066, rely=0.532, relw=0.266, relh=0.237)
         
         #Product button
-        self.product_add_button = tk.Button(self.root, text="+", command=self.app.add_proudct_menu.run)
+        self.product_add_button = tk.Button(self.root, text="+", command=self.app.gui_add_proudct.run)
         self.product_add_button.place(relx=0.066+0.25, rely=0.502, relw=0.016, relh=0.03)
         self.product_del_button = tk.Button(self.root, text="-", command=self.app.create_invoice)
         self.product_del_button.place(relx=0.066+0.23, rely=0.502, relw=0.016, relh=0.03)
 
         #GUI Label
         self.customer_label = tk.Label(self.root, text="Customers")
+    
+    #def refresh(self):
+        
         
     def stop(self):
         

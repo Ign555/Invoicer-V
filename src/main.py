@@ -8,10 +8,13 @@ import GUI_add_product as add_product_gui
 import GUI_add_customer as add_customer_gui
 
 import invoice as iv
-import customer as cstr
+import customer as cr
 import settings as settings
 
 class InvoicerV:
+    
+    customers = []
+    selected_customer = cr.Customer()
     
     def __init__(self, root):
         
@@ -36,21 +39,28 @@ class InvoicerV:
         self.root.state('zoomed') 
 
         #Declare GUI
-        self.invoice_menu = invoice_gui.InvoiceMenu(self)
-        self.choose_customer_menu = select_customer_gui.SelectCustomerWindow(self)
-        self.add_proudct_menu = add_product_gui.AddProductMenu(self)
-        self.add_new_customer_menu = add_customer_gui.AddNewCustomerGUI(self)
+        self.gui_invoice = invoice_gui.InvoiceMenu(self)
+        self.gui_choose_customer = select_customer_gui.SelectCustomerWindow(self)
+        self.gui_add_proudct = add_product_gui.AddProductMenu(self)
+        self.gui_add_new_customer = add_customer_gui.AddNewCustomerGUI(self)
         
         #Run invoice menu
-        self.invoice_menu.run()
+        self.gui_invoice.run()
         
         self.is_running = True 
+        
+    def select_customer(self):
+        self.selected_customer
         
     def add_product(self):
         print("tesdt")
     
     def add_new_customer(self):
-        print("Adding customer")
+
+        self.customers.append(cr.Customer(self.gui_add_new_customer.customer_name.get(), self.gui_add_new_customer.customer_address.get(), self.gui_add_new_customer.customer_immatriculation.get()))  
+        self.gui_add_new_customer.close()
+        
+        self.gui_choose_customer.refresh()
         
     def create_invoice(self):
         
@@ -60,25 +70,45 @@ class InvoicerV:
     def load_customer(self):
         
         #Check if customer file exist
-        if os.path.exists("data/customers.csv") == False:
+        if os.path.exists("../data/customers.csv") == False:
             
-            if os.path.exists("data") == False:
+            if os.path.exists("../data") == False:
                 
-                os.mkdir("data")
+                os.mkdir("../data")
            
-            with open("data/customers.csv", "w", newline="") as customers_file:
+            with open("../data/customers.csv", "w", newline="") as customers_file:
                 writer = csv.writer(customers_file, delimiter=";")
-                writer.writerow(["name", "address", "immatriculation"])
+                writer.writerow(["name", "address", "immatriculation", "phone", "email"])
             
         else:
             #load customer csv here
-            with open("data/customers.csv") as customers_file:
+            with open("../data/customers.csv") as customers_file:
                 customers_list = csv.DictReader(customers_file, delimiter=";")
                 for customer in customers_list:
-                        self.customers.append(cstr.Customer(customer['name'], customer['address'], customer['immatriculation']))  
+                        self.customers.append(cr.Customer(customer['name'], customer['address'], customer['immatriculation']))  
         
+    
+    def save_customer(self):
+            
+        with open("../data/customers.csv", "w") as customers_file:
+            
+            customers_csv = csv.writer(customers_file, delimiter=";")
+            
+            customers_csv.writerow(["name", "address", "immatriculation", "phone", "email"])
+            
+            for customer in self.customers:
+                customers_csv.writerow([customer.name, customer.address, customer.immatriculation, customer.phone, customer.mail])
+            
+            
+    def close(self):
+            
+          self.save_customer()
+          self.root.destroy()
     
 root = tk.Tk(screenName="InvoicerV", baseName="InvoicerV")
 app = InvoicerV(root)
+
+#Event on quit 
+root.protocol("WM_DELETE_WINDOW", app.close)
 
 root.mainloop()

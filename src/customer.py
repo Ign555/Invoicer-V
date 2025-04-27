@@ -1,11 +1,20 @@
 class Customer:
     
-    def __init__(self, customer_name, customer_address, customer_immatriculation=""):
+    name = ""
+    address = ""
+    immatriculation = ""
+    phone = ""
+    mail = ""
         
-        self.customer_name = customer_name
-        self.customer_address = customer_address
-        self.customer_immatriculation = customer_immatriculation
+    def __init__(self, customer_name="", customer_address="", customer_immatriculation=""):
         
-        print("init")
+        self.name = customer_name
+        self.address = customer_address
+        self.immatriculation = customer_immatriculation
+        
+        if self.name == "":
+            self.is_defined = False
+        else:
+            self.is_defined = True
     
     
