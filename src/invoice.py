@@ -3,7 +3,7 @@ from fpdf import FPDF
 if __name__ == "__main__":
     import item as it
 else:
-    import lib.item as it
+    import item as it
 
 class Invoice:
     

@@ -2,13 +2,14 @@ import tkinter as tk
 import os
 import csv
 
-import gui.invoice_menu as invoice_gui
-import gui.select_customer_menu as select_customer_gui
-import gui.add_product_menu as add_product_menu
+import GUI_invoice as invoice_gui
+import GUI_select_customer as select_customer_gui
+import GUI_add_product as add_product_gui
+import GUI_add_customer as add_customer_gui
 
-import lib.invoice as iv
-import lib.customer as cstr
-import lib.settings as settings
+import invoice as iv
+import customer as cstr
+import settings as settings
 
 class InvoicerV:
     
@@ -37,16 +38,20 @@ class InvoicerV:
         #Declare GUI
         self.invoice_menu = invoice_gui.InvoiceMenu(self)
         self.choose_customer_menu = select_customer_gui.SelectCustomerWindow(self)
-        self.add_proudct_menu = add_product_menu.AddProductMenu(self)
+        self.add_proudct_menu = add_product_gui.AddProductMenu(self)
+        self.add_new_customer_menu = add_customer_gui.AddNewCustomerGUI(self)
         
         #Run invoice menu
         self.invoice_menu.run()
         
         self.is_running = True 
         
-    def add_button(self):
+    def add_product(self):
         print("tesdt")
     
+    def add_new_customer(self):
+        print("Adding customer")
+        
     def create_invoice(self):
         
         print("test")

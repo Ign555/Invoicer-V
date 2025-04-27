@@ -3,7 +3,7 @@ import tkinter as tk
 if __name__ == "__main__":
     import select_customer_menu as select_customer_gui
 else:
-    import gui.select_customer_menu as select_customer_gui
+    import GUI_select_customer as select_customer_gui
 
 class InvoiceMenu:
     
@@ -56,6 +56,9 @@ class InvoiceMenu:
         self.product_del_button = tk.Button(self.root, text="-", command=self.app.create_invoice)
         self.product_del_button.place(relx=0.066+0.23, rely=0.502, relw=0.016, relh=0.03)
 
+        #GUI Label
+        self.customer_label = tk.Label(self.root, text="Customers")
+        
     def stop(self):
         
         self.create_invoice.destroy()
