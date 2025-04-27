@@ -6,10 +6,6 @@ class SelectCustomerWindow:
         
         self.app = app
         print("creating")
-    
-    def set_invoice_customer(self):
-        
-        self.app.selected_customer = ""
         
     def run(self):
 
@@ -30,10 +26,10 @@ class SelectCustomerWindow:
         self.customer_list.place(relx=0.05, rely=0.15, relw=0.9, relh=0.60)
         
         #Load customer into the list
-        self.load_customer()
+        self.load_customers()
         
         #Choose button
-        self.add_custumer_button = tk.Button(self.root, text="Choose", command=self.set_invoice_customer)
+        self.add_custumer_button = tk.Button(self.root, text="Choose", command=self.app.set_invoice_customer)
         self.add_custumer_button.place(relx=0.05, rely=0.8, relw=0.9, relh=0.15)
         
         #Define window setting
@@ -43,9 +39,9 @@ class SelectCustomerWindow:
     def refresh(self):
         
         self.customer_list.delete(0, tk.END)
-        self.load_customer()
+        self.load_customers()
     
-    def load_customer(self):
+    def load_customers(self):
         
         i=1
         for customer in self.app.customers:
@@ -54,6 +50,7 @@ class SelectCustomerWindow:
     
         self.customer_list.place(relx=0.05, rely=0.15, relw=0.9, relh=0.60)
         
-    def stop(self):
+    def close(self):
         
         self.root.destroy()
+        self.root.update()

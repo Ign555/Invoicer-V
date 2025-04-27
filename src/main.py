@@ -9,11 +9,13 @@ import GUI_add_customer as add_customer_gui
 
 import invoice as iv
 import customer as cr
+import product_row as pr
 import settings as settings
 
 class InvoicerV:
     
     customers = []
+    product_rows = []
     selected_customer = cr.Customer()
     
     def __init__(self, root):
@@ -41,7 +43,7 @@ class InvoicerV:
         #Declare GUI
         self.gui_invoice = invoice_gui.InvoiceMenu(self)
         self.gui_choose_customer = select_customer_gui.SelectCustomerWindow(self)
-        self.gui_add_proudct = add_product_gui.AddProductMenu(self)
+        self.gui_add_proudct_row = add_product_gui.AddProductMenu(self)
         self.gui_add_new_customer = add_customer_gui.AddNewCustomerGUI(self)
         
         #Run invoice menu
@@ -49,11 +51,19 @@ class InvoicerV:
         
         self.is_running = True 
         
-    def select_customer(self):
-        self.selected_customer
+    def set_invoice_customer(self):
+        
+        self.selected_customer = self.customers[self.gui_choose_customer.customer_list.curselection()[0]]
+        self.gui_choose_customer.close()
+        
+        self.gui_invoice.refresh()
         
     def add_product(self):
-        print("tesdt")
+        
+        self.product_rows.append(pr.ProductRow(1, "ta", 20))
+        self.gui_add_proudct.close()
+        
+        self.gui_invoice.refresh()
     
     def add_new_customer(self):
 
@@ -98,7 +108,6 @@ class InvoicerV:
             
             for customer in self.customers:
                 customers_csv.writerow([customer.name, customer.address, customer.immatriculation, customer.phone, customer.mail])
-            
             
     def close(self):
             

@@ -1,5 +1,5 @@
 import tkinter as tk
-
+import product_row as pr
 
 class AddProductMenu:
     
@@ -36,4 +36,8 @@ class AddProductMenu:
         self.product_quantity_input.place(relx=0.066, rely=0.470, relw=0.266, relh=0.06)
         
         self.root.mainloop()
+     
+    def close(self):
         
+        self.root.destroy()
+        self.root.update()
