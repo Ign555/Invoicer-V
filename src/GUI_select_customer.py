@@ -18,12 +18,15 @@ class SelectCustomerWindow:
         self.root.geometry(f"{screen_width}x{screen_height}")
         
         #Add customer to list
-        self.add_new_custumer_button = tk.Button(self.root, text="+", command=self.app.gui_add_new_customer.run)
-        self.add_new_custumer_button.place(relx=0.05, rely=0.1, relw=0.1, relh=0.15)
+        self.add_new_customer_button = tk.Button(self.root, text="+", command=self.app.gui_add_new_customer.run)
+        self.add_new_customer_button.place(relx=0.9, rely=0.05, relh=0.1)
         
         #Customer list
+        self.customer_list_label = tk.Label(self.root, text="Customers", bg="#ffe4e1", anchor=tk.W)
+        self.customer_list_label.place(relx=0.05, rely=0.05, relw=0.5, relh=0.1)
+        
         self.customer_list = tk.Listbox(self.root, selectmode=tk.SINGLE)
-        self.customer_list.place(relx=0.05, rely=0.15, relw=0.9, relh=0.60)
+        self.customer_list.place(relx=0.05, rely=0.2, relw=0.9, relh=0.60)
         
         #Load customer into the list
         self.load_customers()

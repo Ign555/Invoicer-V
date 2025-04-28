@@ -15,7 +15,6 @@ class InvoiceMenu:
     def run(self):
         
         #Creates menu 
-        
         self.menu_bar = tk.Menu(self.root)
         self.root.config(menu=self.menu_bar)
         
@@ -32,34 +31,42 @@ class InvoiceMenu:
         help_menu = tk.Menu(self.menu_bar)
         self.menu_bar.add_cascade(label='Help', menu=help_menu)
         
-        #Invoice text feild
+        #Invoice number input
+        self.invoice_number_text_input_label = tk.Label(self.root, text="Invoice reference", bg="#ffe4e1", anchor=tk.W)
+        self.invoice_number_text_input_label.place(relx=0.066, rely=0.147, relw=0.266, relh=0.03)
+        
         self.invoice_number_text_input = tk.Entry(self.root, bg="white")
         self.invoice_number_text_input.place(relx=0.066, rely=0.177, relw=0.266, relh=0.06)
+        
+        #Invoice mention 
+        self.invoice_mention_text_input_label = tk.Label(self.root, text="Invoice metion", bg="#ffe4e1", anchor=tk.W)
+        self.invoice_mention_text_input_label.place(relx=0.066, rely=0.265, relw=0.266, relh=0.03)
         
         self.invoice_mention_text_input = tk.Entry(self.root, bg="white")
         self.invoice_mention_text_input.place(relx=0.066, rely=0.295, relw=0.266, relh=0.06)
 
-        #Invoice button 
+        #Invoice choose customer button 
         self.load_customer_button = tk.Button(self.root, command=self.app.gui_choose_customer.run)
         self.load_customer_button.place(relx=0.066, rely=0.414, relw=0.266, relh=0.06)
         
         self.display_customer()
         
-        self.create_invoice_button = tk.Button(self.root, text="Create invoice", command=self.app.create_invoice)
-        self.create_invoice_button.place(relx=0.066, rely=0.80, relw=0.266, relh=0.06)
-        
         #Product list
+        self.product_list_label = tk.Label(self.root, text="Products", bg="#ffe4e1", anchor=tk.W)
+        self.product_list_label.place(relx=0.066, rely=0.502, relw=0.266, relh=0.03)
+        
         self.product_list = tk.Listbox(self.root)
         self.product_list.place(relx=0.066, rely=0.532, relw=0.266, relh=0.237)
         
-        #Product button
+        #Add product button
         self.product_add_button = tk.Button(self.root, text="+", command=self.app.gui_add_product_row.run)
         self.product_add_button.place(relx=0.066+0.25, rely=0.502, relw=0.016, relh=0.03)
-        self.product_del_button = tk.Button(self.root, text="-", command=self.app.create_invoice)
+        self.product_del_button = tk.Button(self.root, text="-", command=self.app.remove_products)
         self.product_del_button.place(relx=0.066+0.23, rely=0.502, relw=0.016, relh=0.03)
-
-        #GUI Label
-        self.customer_label = tk.Label(self.root, text="Customers")
+        
+        #Create invoice button
+        self.create_invoice_button = tk.Button(self.root, text="Create invoice", command=self.app.create_invoice)
+        self.create_invoice_button.place(relx=0.066, rely=0.80, relw=0.266, relh=0.06)
     
     def display_customer(self):
         
@@ -82,6 +89,7 @@ class InvoiceMenu:
     def refresh(self):
         
         self.display_customer()
+        self.product_list.delete(0, tk.END)
         self.display_product_rows()
         
         

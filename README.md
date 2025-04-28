@@ -1,9 +1,8 @@
 To do :
-Fixer le bug de duplication des items lors d'un ajouts
-Finir d'implémenter l'ajout de produit 
 
-Ajouter les labels sur les inputs
+Mettre en place le fait de retirer des articles
 Ajouter la prévisualisation pdf
+Commenter le code
 Mettre en place l'exportation des factures
 Définir des paramètre
 Mettre en place l'importation / l'expotation de client

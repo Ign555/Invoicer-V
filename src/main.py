@@ -60,10 +60,14 @@ class InvoicerV:
         
     def add_product(self):
         
-        self.product_rows.append(pr.ProductRow(1, "ta", 20))
+        self.product_rows.append(pr.ProductRow(self.gui_add_product_row.product_quantity_input.get(), self.gui_add_product_row.product_name_input.get(), self.gui_add_product_row.product_price_input.get()))
         self.gui_add_product_row.close()
         
         self.gui_invoice.refresh()
+    
+    def remove_product(self):
+        
+        self.product_rows.pop((self.gui_invoice.product_list.curselection()[0]))
     
     def add_new_customer(self):
 
