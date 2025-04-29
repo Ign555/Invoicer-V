@@ -67,7 +67,10 @@ class InvoicerV:
     
     def remove_product(self):
         
-        self.product_rows.pop((self.gui_invoice.product_list.curselection()[0]))
+        if(len(self.gui_invoice.product_list.curselection()) > 0):
+            self.product_rows.pop((self.gui_invoice.product_list.curselection()[0]))
+        
+        self.gui_invoice.refresh()
     
     def add_new_customer(self):
 
@@ -78,8 +81,10 @@ class InvoicerV:
         
     def create_invoice(self):
         
+        invoice = iv.Invoice("tet", "FFFF", "Hello world", customer="tesst")
+        invoice.exportPDF(".test")
         print("test")
-        #Create invoice here
+        
         
     def load_customer(self):
         

@@ -1,9 +1,6 @@
 from fpdf import FPDF
 
-if __name__ == "__main__":
-    import item as it
-else:
-    import item as it
+import item as it
 
 class Invoice:
     
@@ -26,32 +23,37 @@ class Invoice:
     
     info = ""
     
-    def __init__(self, number, date, companyName, companyImmatriculation, companyAddress, companyPhone, customer, customerAddress, customerImmatriculation=""):
+    def __init__(self, number, date, companyName, customer, companyImmatriculation="", companyAddress="", companyPhone="", customerAddress="", customerImmatriculation=""):
         
         self.number = number
         self.date = date
         
         self.companyName = companyName
         self.companyImmatriculation = companyImmatriculation
-        self.companyAddress = companyAddress
+        
+        if companyAddress != "":
+            self.companyAddress = companyAddress
+         
+        if customerAddress != "":
+            self.customerAddress = customerAddress
+            
         self.companyPhone = companyPhone
        
-        self.customer = customer
-        self.customerAddress = customerAddress
         self.customerImmatriculation = customerImmatriculation
         
     def addItem(self, name, price, qty):
         
         self.items.append([qty, it.item(name, price)])
     
-    def exportPDF(self):
-        
+    def exportPDF(self, name):
+
         pdf = FPDF()
         pdf.set_auto_page_break(auto=True, margin=15)
         pdf.add_page()
-        pdf.add_font('DejaVu', '', 'assets/DejaVuSans.ttf', uni=True)
+
+        pdf.add_font("DejaVu", "", "../assets/DejaVuSans.ttf", uni=True)
         
-        pdf.set_font("Arial", "B", 16)
+        pdf.set_font("DejaVu", "", 16)
         pdf.cell(180, 10, "Facture", ln=True, align="C")
         pdf.ln(10)
         
@@ -106,7 +108,8 @@ class Invoice:
         pdf.set_font("DejaVu", "", 8)
         pdf.cell(190, 10, self.info, ln=True, align="C")
         
-        pdf.output(f"factures-{self.number}.pdf")
+        pdf.output(name)
+        #pdf.output(f"factures-{self.number}.pdf")
         
         
        

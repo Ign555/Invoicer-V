@@ -1,4 +1,7 @@
 import tkinter as tk
+from tkPDFViewer import tkPDFViewer as tkpdf
+from PIL import Image, ImageTk
+import fitz  # PyMuPDF
 
 if __name__ == "__main__":
     import select_customer_menu as select_customer_gui
@@ -61,13 +64,16 @@ class InvoiceMenu:
         #Add product button
         self.product_add_button = tk.Button(self.root, text="+", command=self.app.gui_add_product_row.run)
         self.product_add_button.place(relx=0.066+0.25, rely=0.502, relw=0.016, relh=0.03)
-        self.product_del_button = tk.Button(self.root, text="-", command=self.app.remove_products)
+        self.product_del_button = tk.Button(self.root, text="-", command=self.app.remove_product)
         self.product_del_button.place(relx=0.066+0.23, rely=0.502, relw=0.016, relh=0.03)
         
         #Create invoice button
         self.create_invoice_button = tk.Button(self.root, text="Create invoice", command=self.app.create_invoice)
         self.create_invoice_button.place(relx=0.066, rely=0.80, relw=0.266, relh=0.06)
-    
+        
+        self.app.create_invoice()
+        
+
     def display_customer(self):
         
         load_customer_button_text = ""

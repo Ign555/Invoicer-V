@@ -1,6 +1,5 @@
 To do :
 
-Mettre en place le fait de retirer des articles
 Ajouter la prévisualisation pdf
 Commenter le code
 Mettre en place l'exportation des factures
