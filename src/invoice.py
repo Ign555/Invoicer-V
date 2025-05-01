@@ -41,11 +41,11 @@ class Invoice:
        
         self.customerImmatriculation = customerImmatriculation
         
-    def addItem(self, name, price, qty):
+    def add_item(self, name, price, qty):
         
         self.items.append([qty, it.item(name, price)])
     
-    def exportPDF(self, name):
+    def export_PDF(self, name):
 
         pdf = FPDF()
         pdf.set_auto_page_break(auto=True, margin=15)
@@ -111,5 +111,7 @@ class Invoice:
         pdf.output(name)
         #pdf.output(f"factures-{self.number}.pdf")
         
+    def __PDF_set_information():
         
+        print("test")
        

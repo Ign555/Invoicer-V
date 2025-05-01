@@ -82,7 +82,7 @@ class InvoicerV:
     def create_invoice(self):
         
         invoice = iv.Invoice("tet", "FFFF", "Hello world", customer="tesst")
-        invoice.exportPDF(".test")
+        invoice.export_PDF(".test")
         print("test")
         
         

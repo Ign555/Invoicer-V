@@ -92,6 +92,9 @@ class InvoiceMenu:
             self.product_list.insert(i, f"{product_row.qty}x {product_row.name}({product_row.uprice})")
             i+=1
     
+    def invoice_preview(self):
+        print("dd")        
+    
     def refresh(self):
         
         self.display_customer()
