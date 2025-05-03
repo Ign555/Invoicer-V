@@ -1,7 +1,7 @@
 import tkinter as tk
-from tkPDFViewer import tkPDFViewer as tkpdf
+import fitz
+import utils
 from PIL import Image, ImageTk
-import fitz  # PyMuPDF
 
 if __name__ == "__main__":
     import select_customer_menu as select_customer_gui
@@ -14,6 +14,13 @@ class InvoiceMenu:
         
         self.root = app.root
         self.app = app
+        
+        screen_width = int(self.root.winfo_screenwidth()/2)
+        screen_height = int(self.root.winfo_screenheight()/2)
+        (w, h) = utils.scale_widget_relative_to_window(screen_width, screen_height, 0.3, 210, 297)
+        
+        self.preview_canvas = tk.Canvas(self.root)
+        self.preview_canvas.place(relx = 0.6, rely = 0.2, relw = w, relh = h)
         
     def run(self):
         
@@ -70,8 +77,8 @@ class InvoiceMenu:
         #Create invoice button
         self.create_invoice_button = tk.Button(self.root, text="Create invoice", command=self.app.create_invoice)
         self.create_invoice_button.place(relx=0.066, rely=0.80, relw=0.266, relh=0.06)
-        
-        self.app.create_invoice()
+        self.invoice_preview()
+        #self.app.create_invoice()
         
 
     def display_customer(self):
@@ -93,13 +100,27 @@ class InvoiceMenu:
             i+=1
     
     def invoice_preview(self):
-        print("dd")        
+        invoice_pdf = fitz.open("preview.pdf")
+        page = invoice_pdf.load_page(0)
+        pix = page.get_pixmap()
+        preview_image = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+        
+        self.preview_image_tk = ImageTk.PhotoImage(preview_image)
+        
+       
+        self.preview_canvas.delete("all")
+        self.preview_canvas.create_image(0, 0, image=self.preview_image_tk, anchor=tk.NW)
+        self.preview_canvas.image = self.preview_image_tk
+        
+        self.root.after(100, self.invoice_preview)
+        
     
     def refresh(self):
         
         self.display_customer()
         self.product_list.delete(0, tk.END)
         self.display_product_rows()
+        self.invoice_preview()
         
         
     def stop(self):

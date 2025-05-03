@@ -129,4 +129,5 @@ app = InvoicerV(root)
 #Event on quit 
 root.protocol("WM_DELETE_WINDOW", app.close)
 
+root.after(100, app.gui_invoice.invoice_preview)
 root.mainloop()
