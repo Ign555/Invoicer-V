@@ -1,6 +1,4 @@
 To do :
-
-Ajouter la prévisualisation pdf
 Commenter le code
 Mettre en place l'exportation des factures
 Définir des paramètre

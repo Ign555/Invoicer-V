@@ -1,5 +1,7 @@
 from fpdf import FPDF
 
+import customer as cr
+import vendor as v
 import item as it
 
 class Invoice:
@@ -23,23 +25,10 @@ class Invoice:
     
     info = ""
     
-    def __init__(self, number, date, companyName, customer, companyImmatriculation="", companyAddress="", companyPhone="", customerAddress="", customerImmatriculation=""):
+    def __init__(self, number, date, vendor, customer):
         
-        self.number = number
-        self.date = date
-        
-        self.companyName = companyName
-        self.companyImmatriculation = companyImmatriculation
-        
-        if companyAddress != "":
-            self.companyAddress = companyAddress
-         
-        if customerAddress != "":
-            self.customerAddress = customerAddress
-            
-        self.companyPhone = companyPhone
-       
-        self.customerImmatriculation = customerImmatriculation
+        self.vendor = vendor
+        self.customer = customer
         
     def add_item(self, name, price, qty):
         
@@ -58,19 +47,19 @@ class Invoice:
         pdf.ln(10)
         
         pdf.set_font("DejaVu", "", 10)
-        pdf.cell(90, 5, self.companyName, 0, align="L")
-        pdf.cell(90, 5, self.customer, 0, align="R")
+        pdf.cell(90, 5, self.vendor.name, 0, align="L")
+        pdf.cell(90, 5, self.customer.name, 0, align="R")
         pdf.ln()
-        pdf.cell(90, 5, f"{self.companyImmatriculation}", 0, align="L")
-        pdf.cell(90, 5, f"{self.customerImmatriculation}", 0, align="R")
+        pdf.cell(90, 5, f"{self.vendor.immatriculation}", 0, align="L")
+        pdf.cell(90, 5, f"{self.customer.immatriculation}", 0, align="R")
         pdf.ln()
-        pdf.cell(90, 5, f"{self.companyAddress['street']}", 0, align="L")
-        pdf.cell(90, 5, f"{self.customerAddress['street']}", 0, align="R")
+        pdf.cell(90, 5, f"{self.vendor.address['street']}", 0, align="L")
+        pdf.cell(90, 5, f"{self.customer.address['street']}", 0, align="R")
         pdf.ln()
-        pdf.cell(90, 5, f"{self.companyAddress['postcode']}, {self.companyAddress['city']}", 0, align="L")
-        pdf.cell(90, 5, f"{self.customerAddress['postcode']}, {self.customerAddress['city']}", 0, align="R")
+        pdf.cell(90, 5, f"{self.vendor.address['postcode']}, {self.vendor.address['city']}", 0, align="L")
+        pdf.cell(90, 5, f"{self.customer.address['postcode']}, {self.vendor.address['city']}", 0, align="R")
         pdf.ln()
-        pdf.cell(90, 5, f"{self.companyPhone}", 0, align="L")
+        pdf.cell(90, 5, f"{self.vendor.phone}", 0, align="L")
         pdf.ln(10)
         
         pdf.cell(180, 5, f"Facture n°{self.number}", ln=True, align="L")

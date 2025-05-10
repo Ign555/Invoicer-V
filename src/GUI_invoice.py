@@ -1,12 +1,7 @@
 import tkinter as tk
-import fitz
+import pymupdf
 import utils
 from PIL import Image, ImageTk
-
-if __name__ == "__main__":
-    import select_customer_menu as select_customer_gui
-else:
-    import GUI_select_customer as select_customer_gui
 
 class InvoiceMenu:
     
@@ -14,13 +9,9 @@ class InvoiceMenu:
         
         self.root = app.root
         self.app = app
-        
-        screen_width = int(self.root.winfo_screenwidth()/2)
-        screen_height = int(self.root.winfo_screenheight()/2)
-        (w, h) = utils.scale_widget_relative_to_window(screen_width, screen_height, 0.3, 210, 297)
-        
+       
         self.preview_canvas = tk.Canvas(self.root)
-        self.preview_canvas.place(relx = 0.6, rely = 0.2, relw = w, relh = h)
+        self.preview_canvas.place(relx = 0.6, rely = 0.2)
         
     def run(self):
         
@@ -100,19 +91,27 @@ class InvoiceMenu:
             i+=1
     
     def invoice_preview(self):
-        invoice_pdf = fitz.open("preview.pdf")
+        invoice_pdf = pymupdf.Document(".preview.pdf")
         page = invoice_pdf.load_page(0)
         pix = page.get_pixmap()
-        preview_image = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+        invoice_pdf.close()
+        screen_width = int(self.root.winfo_screenwidth()/2)
+        screen_height = int(self.root.winfo_screenheight()/2)
+        (w, h) = utils.scale_widget_relative_to_window(screen_width, screen_height, 0.3, 595 , 842 )
         
-        self.preview_image_tk = ImageTk.PhotoImage(preview_image)
-        
+        new_width = int(screen_width*w)*2
+        new_height = int(screen_height*h)*2
        
+        self.preview_image = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+        self.preview_image = self.preview_image.resize((new_width, new_height))
+        self.preview_image_tk = ImageTk.PhotoImage(self.preview_image)
+        
+        self.preview_canvas.config(width=new_width, height=new_height)
         self.preview_canvas.delete("all")
         self.preview_canvas.create_image(0, 0, image=self.preview_image_tk, anchor=tk.NW)
-        self.preview_canvas.image = self.preview_image_tk
-        
+        self.preview_canvas.place(relx = 0.6, rely = 0.2, relw=w, relh=h)
         self.root.after(100, self.invoice_preview)
+        
         
     
     def refresh(self):
@@ -121,6 +120,8 @@ class InvoiceMenu:
         self.product_list.delete(0, tk.END)
         self.display_product_rows()
         self.invoice_preview()
+        
+        self.app.create_preview()
         
         
     def stop(self):

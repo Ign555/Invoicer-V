@@ -1,6 +1,7 @@
 import tkinter as tk
 import os
 import csv
+from datetime import date
 
 import GUI_invoice as invoice_gui
 import GUI_select_customer as select_customer_gui
@@ -9,6 +10,7 @@ import GUI_add_customer as add_customer_gui
 
 import invoice as iv
 import customer as cr
+import vendor as v
 import product_row as pr
 import settings as settings
 
@@ -17,6 +19,7 @@ class InvoicerV:
     customers = []
     product_rows = []
     selected_customer = cr.Customer()
+    vendor = v.Vendor()
     
     def __init__(self, root):
         
@@ -71,7 +74,7 @@ class InvoicerV:
             self.product_rows.pop((self.gui_invoice.product_list.curselection()[0]))
         
         self.gui_invoice.refresh()
-    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
     def add_new_customer(self):
 
         self.customers.append(cr.Customer(self.gui_add_new_customer.customer_name.get(), self.gui_add_new_customer.customer_address.get(), self.gui_add_new_customer.customer_immatriculation.get()))  
@@ -81,10 +84,16 @@ class InvoicerV:
         
     def create_invoice(self):
         
-        invoice = iv.Invoice("tet", "FFFF", "Hello world", customer="tesst")
+        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.vendor, self.selected_customer)
         invoice.export_PDF(".test")
         print("test")
+    
+    def create_preview(self):
         
+        print("Create preview")
+        
+        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.vendor, self.selected_customer)
+        invoice.export_PDF(".preview.pdf")
         
     def load_customer(self):
         
@@ -127,7 +136,9 @@ root = tk.Tk(screenName="InvoicerV", baseName="InvoicerV")
 app = InvoicerV(root)
 
 #Event on quit 
+
 root.protocol("WM_DELETE_WINDOW", app.close)
+
 
 root.after(100, app.gui_invoice.invoice_preview)
 root.mainloop()
