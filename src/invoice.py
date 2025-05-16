@@ -2,22 +2,13 @@ from fpdf import FPDF
 
 import customer as cr
 import vendor as v
-import item as it
+import product_row as it
+#import item as it
 
-class Invoice:
+class Invoice(FPDF):
     
     number = ""
     date = ""
-    
-    companyName = ""
-    companyImmatriculation = ""
-    companyAddress = {"street" : "", "city" : "", "postcode" : ""}
-    
-    companyPhone = "";
-    
-    customer = ""
-    customerAddress = {"street" : "", "city" : "", "postcode" : ""}
-    companyImmatriculation = ""
     
     items = []
     
@@ -27,80 +18,93 @@ class Invoice:
     
     def __init__(self, number, date, vendor, customer):
         
+        ##############################-PDF init-##############################
+        
+        super().__init__()
+        
+        ##############################-Set Class Attributes-##############################
+        
         self.vendor = vendor
         self.customer = customer
+        self.number = number
+        self.date = date
         
-    def add_item(self, name, price, qty):
-        
-        self.items.append([qty, it.item(name, price)])
+    ##############################-Edit Invoice information-##############################
     
-    def export_PDF(self, name):
+    def add_item(self, product_row):
+        
+        self.items.append([product_row.qty, product_row.name, product_row.uprice])
+    
+    ##############################-Exporting invoice into a pdf-##############################
+    
+    def format_PDF(self):
+        
+        self.set_auto_page_break(auto=True, margin=15)
+        self.add_page()
 
-        pdf = FPDF()
-        pdf.set_auto_page_break(auto=True, margin=15)
-        pdf.add_page()
-
-        pdf.add_font("DejaVu", "", "../assets/DejaVuSans.ttf", uni=True)
+        self.add_font("DejaVu", "", "../assets/DejaVuSans.ttf", uni=True)
         
-        pdf.set_font("DejaVu", "", 16)
-        pdf.cell(180, 10, "Facture", ln=True, align="C")
-        pdf.ln(10)
+        self.set_font("DejaVu", "", 16)
+        self.cell(180, 10, "Facture", ln=True, align="C")
+        self.ln(10)
         
-        pdf.set_font("DejaVu", "", 10)
-        pdf.cell(90, 5, self.vendor.name, 0, align="L")
-        pdf.cell(90, 5, self.customer.name, 0, align="R")
-        pdf.ln()
-        pdf.cell(90, 5, f"{self.vendor.immatriculation}", 0, align="L")
-        pdf.cell(90, 5, f"{self.customer.immatriculation}", 0, align="R")
-        pdf.ln()
-        pdf.cell(90, 5, f"{self.vendor.address['street']}", 0, align="L")
-        pdf.cell(90, 5, f"{self.customer.address['street']}", 0, align="R")
-        pdf.ln()
-        pdf.cell(90, 5, f"{self.vendor.address['postcode']}, {self.vendor.address['city']}", 0, align="L")
-        pdf.cell(90, 5, f"{self.customer.address['postcode']}, {self.vendor.address['city']}", 0, align="R")
-        pdf.ln()
-        pdf.cell(90, 5, f"{self.vendor.phone}", 0, align="L")
-        pdf.ln(10)
+        self.set_font("DejaVu", "", 10)
+        self.cell(90, 5, self.vendor.name, 0, align="L")
+        self.cell(90, 5, self.customer.name, 0, align="R")
+        self.ln()
+        self.cell(90, 5, f"{self.vendor.immatriculation}", 0, align="L")
+        self.cell(90, 5, f"{self.customer.immatriculation}", 0, align="R")
+        self.ln()
+        self.cell(90, 5, f"{self.vendor.address['street']}", 0, align="L")
+        self.cell(90, 5, f"{self.customer.address['street']}", 0, align="R")
+        self.ln()
+        self.cell(90, 5, f"{self.vendor.address['postcode']}, {self.vendor.address['city']}", 0, align="L")
+        self.cell(90, 5, f"{self.customer.address['postcode']}, {self.customer.address['city']}", 0, align="R")
+        self.ln()
+        self.cell(90, 5, f"{self.vendor.phone}", 0, align="L")
+        self.ln(10)
         
-        pdf.cell(180, 5, f"Facture n°{self.number}", ln=True, align="L")
-        pdf.cell(180, 5, f"Date : {self.date}", ln=True, align="L")
-        pdf.ln(10)
+        self.cell(180, 5, f"Facture n°{self.number}", ln=True, align="L")
+        self.cell(180, 5, f"Date : {self.date}", ln=True, align="L")
+        self.ln(h=10)
         
-        pdf.set_font("DejaVu", "", 12)
-        pdf.cell(10, 10, "Qty", 1, align="C")
-        pdf.cell(100, 10, "Désignation", 1, align="L")
-        pdf.cell(30, 10, "Prix", 1, align="C")
-        pdf.cell(50, 10, "Total", 1, align="C")
-        pdf.ln()
+        self.set_font("DejaVu", "", 12)
+        self.cell(10, 10, "Qty", 1, align="C")
+        self.cell(100, 10, "Désignation", 1, align="L")
+        self.cell(30, 10, "Prix", 1, align="C")
+        self.cell(50, 10, "Total", 1, align="C")
+        self.ln()
         
         for item in self.items:
             
-            pdf.cell(10, 10, f"{item[0]}", 1, align="C")
-            pdf.cell(100, 10, item[1].name, 1, align="L")
-            pdf.cell(30, 10, f"{item[1].price} €", 1, align="R")
-            pdf.cell(50, 10, f"{item[1].price*item[0]} €", 1, align="R")
+            self.cell(10, 10, f"{item[0]}", 1, align="C")
+            self.cell(100, 10, item[1].name, 1, align="L")
+            self.cell(30, 10, f"{item[1].price} €", 1, align="R")
+            self.cell(50, 10, f"{item[1].price*item[0]} €", 1, align="R")
             
-        pdf.ln(20)
+        self.ln(20)
         
         total = 0
         for item in self.items:
             
             total += item[1].price*item[0]
             
-        pdf.cell(190, 10, f"Total : {total} €", ln=True, align="R")
+        self.cell(190, 10, f"Total : {total} €", ln=True, align="R")
         
         if self.paidDate != "":
             
-            pdf.cell(190, 10, f"Payé le: {self.paidDate}", ln=True, align="L")
+            self.cell(190, 10, f"Payé le: {self.paidDate}", ln=True, align="L")
         
+        self.set_font("DejaVu", "", 8)
+        self.cell(190, 10, self.info, ln=True, align="C")
         
-        pdf.set_font("DejaVu", "", 8)
-        pdf.cell(190, 10, self.info, ln=True, align="C")
+    def export_PDF(self, name=""):
+
+        self.format_PDF()
         
-        pdf.output(name)
-        #pdf.output(f"factures-{self.number}.pdf")
+        if name == "":
+            self.output(f"factures-{self.number}.pdf")
+        else:
+            self.output(name)
         
-    def __PDF_set_information():
-        
-        print("test")
        

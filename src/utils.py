@@ -1,19 +1,18 @@
+# -*- coding: utf-8 -*-
 
-def scale_widget(widget_width, widget_original_width, widget_original_height):
-    
-    factor = widget_original_height/widget_original_width
-    
-    widget_new_width = widget_width
-    height_new_height = widget_width*factor
-    
-    return (widget_new_width, height_new_height)
+"""
+*
+*
+* INVOICER-V - invoice making software
+* Created by Ign555
+* Version : v0.9
+* Project Creation : 10/04/2025
+*
+*
+"""
 
-def scale_widget_relative_to_window(window_width, window_height, widget_relative_width, widget_original_width, widget_original_height):
-    
-    (widget_new_width, height_new_height) = scale_widget(window_width*widget_relative_width, widget_original_width, widget_original_height)
+def centerx(widget, width):
+    return (widget.winfo_width()-width)/2
 
-    return (widget_new_width/window_width, height_new_height/window_height)
-    
-def get_widget_height():
-    h = 0
-    return h
+def centery(widget, height):
+    return (widget.winfo_height()-height)/2

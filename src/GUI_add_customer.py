@@ -1,65 +1,125 @@
+# -*- coding: utf-8 -*-
+
+"""
+*
+*
+* INVOICER-V - invoice making software
+* Created by Ign555
+* Version : v0.9
+* Project Creation : 10/04/2025
+*
+*
+"""
+
 import tkinter as tk 
 
-class AddNewCustomerGUI:
+"""
+*
+* AddNewCustomer GUI
+*
+"""
+
+class AddNewCustomerGUI(tk.Toplevel):
 
     def __init__(self, app):
         
+        ##############################-Toplevel init-##############################
+        
+        super().__init__(app, bg="white")
+        
+        ##############################-Set Class Attributes-##############################
+        
         self.app = app
         
-    def run(self):
+        ##############################-Toplevel Settings-##############################
         
-        self.root = tk.Toplevel()
-        self.root.title('Add new customer')
-        self.root.grab_set() #Locking the interraction only for the popup
+        #Define window settings
+        self.title('Add new product')
+        self.grab_set() #Locking the interraction only for the popup
         
-        screen_width = int(self.root.winfo_screenwidth()/4)
-        screen_height = int(self.root.winfo_screenheight()/2)
-        self.root.geometry(f"{screen_width}x{screen_height}")
+        #Set Toplevel size
+        screen_width = int(self.winfo_screenwidth()/3)
+        screen_height = int(self.winfo_screenheight()/2)
+        self.geometry(f"{screen_width}x{screen_height}")
+        
+        ##############################-Set GUI Settings-##############################
+        
+        #Configure column
+        self.rowconfigure(0, weight=0)
+        self.rowconfigure(1, weight=0)
+        self.rowconfigure(2, weight=0)
+        self.rowconfigure(3, weight=0)
+        self.rowconfigure(4, weight=0)
+        self.rowconfigure(5, weight=0)
+        self.rowconfigure(6, weight=0)
+        self.rowconfigure(7, weight=0)
+        self.rowconfigure(8, weight=0)
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=1)
+        
+        ##############################-Set GUI Widgets-##############################
+        
+        #Customer name feild label
+        self.customer_name_label = tk.Label(self, text="Customer name", bg='#ffe4e1', anchor=tk.W)
+        self.customer_name_label.grid(row=0, column=0)
         
         #Customer name feild
-        self.customer_name_label = tk.Label(self.root, text="Customer phone", bg='#ffe4e1', anchor=tk.W)
-        self.customer_name_label.place(relx=0.05, rely=0.10, relw=0.9, relh=0.05)
+        self.customer_name = tk.Entry(self)
+        self.customer_name.grid(row=1, column=0)
         
-        self.customer_name = tk.Entry(self.root)
-        self.customer_name.place(relx=0.05, rely=0.15, relw=0.90, relh=0.05)
+        #Customer immatriculation label
+        self.customer_immatriculation_label = tk.Label(self, text="Customer Immatriculation", bg='#ffe4e1', anchor=tk.W)
+        self.customer_immatriculation_label.grid(row=0, column=1)
         
-        #Customer address
-        self.customer_address_label = tk.Label(self.root, text="Customer address", bg='#ffe4e1', anchor=tk.W)
-        self.customer_address_label.place(relx=0.05, rely=0.25, relw=0.9, relh=0.05)
+        #Customer immatriculation feild
+        self.customer_immatriculation = tk.Entry(self)
+        self.customer_immatriculation.grid(row=1, column=1)
         
-        self.customer_address = tk.Entry(self.root)
-        self.customer_address.place(relx=0.05, rely=0.30, relw=0.90, relh=0.05)
+        #Customer street label
+        self.customer_street_label = tk.Label(self, text="Customer street", bg='#ffe4e1', anchor=tk.W)
+        self.customer_street_label.grid(row=2, column=0, columnspan=2)
         
-        #Customer immatriculation
-        self.customer_immatriculation_label = tk.Label(self.root, text="Customer Immatriculation", bg='#ffe4e1', anchor=tk.W)
-        self.customer_immatriculation_label.place(relx=0.05, rely=0.40, relw=0.9, relh=0.05)
+        #Customer street feild
+        self.customer_street = tk.Entry(self)
+        self.customer_street.grid(row=3, column=0, columnspan=2)
         
-        self.customer_immatriculation = tk.Entry(self.root)
-        self.customer_immatriculation.place(relx=0.05, rely=0.45, relw=0.90, relh=0.05)
+        #Customer city label
+        self.customer_city_label = tk.Label(self, text="Customer city", bg='#ffe4e1', anchor=tk.W)
+        self.customer_city_label.grid(row=4, column=0)
         
-        #Customer phone
-        self.customer_phone_label = tk.Label(self.root, text="Customer phone", bg='#ffe4e1', anchor=tk.W)
-        self.customer_phone_label.place(relx=0.05, rely=0.55, relw=0.9, relh=0.05)
+        #Customer city feild
+        self.customer_city = tk.Entry(self)
+        self.customer_city.grid(row=5, column=0)
         
-        self.customer_phone = tk.Entry(self.root)
-        self.customer_phone.place(relx=0.05, rely=0.60, relw=0.90, relh=0.05)
+        #Customer postcode label
+        self.customer_postcode_label = tk.Label(self, text="Postcode", bg='#ffe4e1', anchor=tk.W)
+        self.customer_postcode_label.grid(row=4, column=1)
         
-        #Customer mail
-        self.customer_email_label = tk.Label(self.root, text="Customer mail", bg='#ffe4e1', anchor=tk.W)
-        self.customer_email_label.place(relx=0.05, rely=0.70, relw=0.9, relh=0.05)
+        #Customer postcode feild
+        self.customer_postcode = tk.Entry(self)
+        self.customer_postcode.grid(row=5, column=1)
         
-        self.customer_email = tk.Entry(self.root)
-        self.customer_email.place(relx=0.05, rely=0.75, relw=0.90, relh=0.05)
+        #Customer phone label
+        self.customer_phone_label = tk.Label(self, text="Customer phone", bg='#ffe4e1', anchor=tk.W)
+        self.customer_phone_label.grid(row=6, column=0)
+        
+        #Customer phone feild
+        self.customer_phone = tk.Entry(self)
+        self.customer_phone.grid(row=7, column=0)
+        
+        #Customer mail label
+        self.customer_email_label = tk.Label(self, text="Customer mail", bg='#ffe4e1', anchor=tk.W)
+        self.customer_email_label.grid(row=6, column=1)
+        
+        #Customer mail feild
+        self.customer_email = tk.Entry(self)
+        self.customer_email.grid(row=7, column=1)
         
         #Add button
-        self.add_button = tk.Button(self.root, text="Add", command=self.app.add_new_customer)
-        self.add_button.place(relx=0.05, rely=0.85, relw=0.9, relh=0.10)
-        
-        #Define window setting
-        self.root.configure(bg='#ffe4e1')
-        self.root.mainloop()
+        self.add_button = tk.Button(self, text="Add", command=self.app.add_new_customer)
+        self.add_button.grid(row=8, column=0, columnspan=2)
         
     def close(self):
         
-        self.root.destroy()
-        self.root.update()
+        self.destroy()
+        self.update()

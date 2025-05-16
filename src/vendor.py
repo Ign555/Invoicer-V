@@ -1,25 +1,41 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sat May 10 13:49:33 2025
 
-@author: netwo
 """
+*
+*
+* INVOICER-V - invoice making software
+* Created by Ign555
+* Version : v0.9
+* Project Creation : 10/04/2025
+*
+*
+"""
+
+"""
+*
+* Vendor Class
+*
+"""
+
 class Vendor:
     
+    #Class public attributes 
     name = ""
-    address = {"street" : "", "city" : "", "postcode" : ""}
     immatriculation = ""
+    address = {"street" : "", "city" : "", "postcode" : ""}
     phone = ""
     mail = ""
         
-    def __init__(self, vendor_name="", vendor_address="", vendor_immatriculation="", vendor_phone="", vendor_mail=""):
+    def __init__(self, vname="", vaddress="", vimmatriculation="", vphone="", vmail=""):
         
-        self.name = vendor_name
-        if(vendor_address != ""): self.address = vendor_address
-        self.immatriculation = vendor_immatriculation
-        self.phone = vendor_phone
-        self.mail = vendor_mail
+        #Set attributes values
+        self.name = vname
+        self.immatriculation = vimmatriculation
+        if(type(vaddress) == dict): self.address = vaddress #Address should be a dictionary 
+        self.phone = vphone
+        self.mail = vmail
         
+        #Determine if the vendor is defined in settings or not
         if self.name == "":
             self.is_defined = False
         else:

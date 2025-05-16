@@ -1,6 +1,20 @@
+# -*- coding: utf-8 -*-
+
+"""
+*
+*
+* INVOICER-V - invoice making software
+* Created by Ign555
+* Version : v0.9
+* Project Creation : 10/04/2025
+*
+*
+"""
+
 import tkinter as tk
 import os
 import csv
+import ast
 from datetime import date
 
 import GUI_invoice as invoice_gui
@@ -13,17 +27,42 @@ import customer as cr
 import vendor as v
 import product_row as pr
 import settings as settings
+from styles import COLORS
 
-class InvoicerV:
+"""
+*
+* Main
+*
+"""
+
+class InvoicerV(tk.Tk):
     
     customers = []
     product_rows = []
     selected_customer = cr.Customer()
     vendor = v.Vendor()
     
-    def __init__(self, root):
+    def __init__(self):
         
-        self.root = root
+        ##############################-App init-##############################
+        
+        super().__init__(screenName="InvoicerV", baseName="InvoicerV")
+        
+        ##############################-App Window Settings-##############################
+        
+        #Define window settings
+        self.title('Invoicer-V')
+        self.configure(bg=COLORS["window_background"])
+        
+        #Set window size
+        width = int(self.winfo_screenwidth()/2)
+        height = int(self.winfo_screenheight()/2)
+        self.geometry(f"{width}x{height}")
+        
+        #Default -> mode fullscreen
+        self.state('zoomed')
+        
+        ##############################-Data loading-##############################
         
         #Load settings
         self.settings = settings.Settings()
@@ -31,33 +70,81 @@ class InvoicerV:
         #Load customer
         self.load_customer()
         
-        #Define window setting
-        self.root.title('Invoicer-V')
-        self.root.configure(bg='#ffe4e1')
+        ##############################-Set GUI Settings-##############################
         
-        #Set window full screen
-        screen_width = int(self.root.winfo_screenwidth()/2)
-        screen_height = int(self.root.winfo_screenheight()/2)
-        self.root.geometry(f"{screen_width}x{screen_height}")
+        #Configure window grid for frame
+        self.rowconfigure(0, weight=1)
+        self.columnconfigure(0, weight=1)
         
-        #Default fullscreen
-        self.root.state('zoomed') 
-
-        #Declare GUI
+        ##############################-Set GUI Widgets-##############################
+        
+        #Add app menu
+        self.menu_bar = tk.Menu(self)
+        self.config(menu=self.menu_bar)
+        
+        self.invoice_menu = tk.Menu(self.menu_bar)
+        self.menu_bar.add_cascade(label='Invoices', menu=self.invoice_menu)
+        self.invoice_menu.add_command(label="Import..")
+        
+        self.customer_menu = tk.Menu(self.menu_bar)
+        self.menu_bar.add_cascade(label='Customer', menu=self.customer_menu)
+        
+        self.vendor_menu = tk.Menu(self.menu_bar)
+        self.menu_bar.add_cascade(label='Company', menu=self.vendor_menu)
+        self.vendor_menu.add_command(label="Edit..")
+        
+        self.settings_menu = tk.Menu(self.menu_bar)
+        self.menu_bar.add_cascade(label='Settings', menu=self.settings_menu)
+        
+        self.help_menu = tk.Menu(self.menu_bar)
+        self.menu_bar.add_cascade(label='Help', menu=self.help_menu)
+        
+        
+        #Load invoice making gui
         self.gui_invoice = invoice_gui.InvoiceMenu(self)
-        self.gui_choose_customer = select_customer_gui.SelectCustomerWindow(self)
-        self.gui_add_product_row = add_product_gui.AddProductMenu(self)
-        self.gui_add_new_customer = add_customer_gui.AddNewCustomerGUI(self)
-        
-        #Run invoice menu
-        self.gui_invoice.run()
-        
+
         self.is_running = True 
         
+    ##############################-Invoke app GUI-##############################
+    
+    def GUI_choose_customer(self):
+        self.gui_choose_customer = select_customer_gui.SelectCustomerWindow(self)
+    
+    def GUI_create_product(self):
+        self.gui_add_product_row = add_product_gui.AddProductMenu(self)
+    
+    def GUI_create_customer(self):
+        self.gui_add_new_customer = add_customer_gui.AddNewCustomerGUI(self)
+    
+    ##############################-Edit app GUI-##############################
+    
+    def create_preview(self):
+        
+        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.vendor, self.selected_customer)
+        invoice.export_PDF(".preview.pdf")
+        
+    ##############################-Add data to app-##############################
+    
+    def add_new_customer(self):
+
+        customer_name = self.gui_add_new_customer.customer_name.get()
+        customer_address = {"street" : self.gui_add_new_customer.customer_street.get(), "city" : self.gui_add_new_customer.customer_city.get(), "postcode" : self.gui_add_new_customer.customer_postcode.get()}
+        customer_immatriculation = self.gui_add_new_customer.customer_immatriculation.get()
+        
+        self.customers.append(cr.Customer(customer_name, customer_address, customer_immatriculation))  
+        self.gui_add_new_customer.close()
+        
+        self.gui_choose_customer.refresh()
+    
+    ##############################-Edit invoice informations-##############################
+    
     def set_invoice_customer(self):
         
-        self.selected_customer = self.customers[self.gui_choose_customer.customer_list.curselection()[0]]
-        self.gui_choose_customer.close()
+        if hasattr(self, 'gui_choose_customer'):
+            self.selected_customer = self.customers[self.gui_choose_customer.customer_list.curselection()[0]]
+            self.gui_choose_customer.close()
+        else:
+            print("do no exist")
         
         self.gui_invoice.refresh()
         
@@ -74,27 +161,10 @@ class InvoicerV:
             self.product_rows.pop((self.gui_invoice.product_list.curselection()[0]))
         
         self.gui_invoice.refresh()
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
-    def add_new_customer(self):
-
-        self.customers.append(cr.Customer(self.gui_add_new_customer.customer_name.get(), self.gui_add_new_customer.customer_address.get(), self.gui_add_new_customer.customer_immatriculation.get()))  
-        self.gui_add_new_customer.close()
+             
         
-        self.gui_choose_customer.refresh()
-        
-    def create_invoice(self):
-        
-        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.vendor, self.selected_customer)
-        invoice.export_PDF(".test")
-        print("test")
+    ##############################-Customer files management-##############################
     
-    def create_preview(self):
-        
-        print("Create preview")
-        
-        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.vendor, self.selected_customer)
-        invoice.export_PDF(".preview.pdf")
-        
     def load_customer(self):
         
         #Check if customer file exist
@@ -109,13 +179,13 @@ class InvoicerV:
                 writer.writerow(["name", "address", "immatriculation", "phone", "email"])
             
         else:
+            
             #load customer csv here
             with open("../data/customers.csv") as customers_file:
                 customers_list = csv.DictReader(customers_file, delimiter=";")
                 for customer in customers_list:
-                        self.customers.append(cr.Customer(customer['name'], customer['address'], customer['immatriculation']))  
+                        self.customers.append(cr.Customer(customer['name'], ast.literal_eval(customer['address']), customer['immatriculation']))  
         
-    
     def save_customer(self):
             
         with open("../data/customers.csv", "w") as customers_file:
@@ -125,20 +195,31 @@ class InvoicerV:
             customers_csv.writerow(["name", "address", "immatriculation", "phone", "email"])
             
             for customer in self.customers:
-                customers_csv.writerow([customer.name, customer.address, customer.immatriculation, customer.phone, customer.mail])
-            
+                customers_csv.writerow([customer.name, str(customer.address), customer.immatriculation, customer.phone, customer.mail])
+    
+    ##############################-Settings files management-##############################
+    
+    ##############################-Export data-##############################
+    
+    def create_invoice(self):
+        
+        files = [('All Files', '*.*'), 
+             ('Python Files', '*.py'),
+             ('Text Document', '*.txt')]
+        file = tk.filedialog.asksaveasfile(filetypes = files, defaultextension = files)
+
+        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.vendor, self.selected_customer)
+        invoice.export_PDF()
+        
     def close(self):
             
           self.save_customer()
-          self.root.destroy()
+          self.destroy()
     
-root = tk.Tk(screenName="InvoicerV", baseName="InvoicerV")
-app = InvoicerV(root)
+app = InvoicerV()
 
 #Event on quit 
 
-root.protocol("WM_DELETE_WINDOW", app.close)
+app.protocol("WM_DELETE_WINDOW", app.close)
 
-
-root.after(100, app.gui_invoice.invoice_preview)
-root.mainloop()
+app.mainloop()

@@ -1,76 +1,85 @@
+# -*- coding: utf-8 -*-
+
+"""
+*
+*
+* INVOICER-V - invoice making software
+* Created by Ign555
+* Version : v0.9
+* Project Creation : 10/04/2025
+*
+*
+"""
+
 import tkinter as tk
+from math import sqrt
 import pymupdf
-import utils
+import utils as u
+import styles as s
 from PIL import Image, ImageTk
 
-class InvoiceMenu:
+"""
+*
+* Invoice GUI
+*
+"""
+
+class InvoiceMenu(tk.Frame):
     
     def __init__(self, app):
         
-        self.root = app.root
-        self.app = app
+        super().__init__(app, bg="white")
+        
+        self.app = app 
+        
+        for i in range(0, 8):
+            self.rowconfigure(i, weight=1)
+            
+        for i in range(0, 4):
+            self.columnconfigure(i, weight=1)
+      
+        self.grid(row=0, column=0, padx=0,  pady=0, sticky=tk.NSEW)
+        
+        
+        self.preview_canvas = tk.Canvas(self)
+        self.preview_canvas.grid(row=0, column=3, rowspan=8, sticky=tk.NSEW)
        
-        self.preview_canvas = tk.Canvas(self.root)
-        self.preview_canvas.place(relx = 0.6, rely = 0.2)
+        self.invoice_number_text_input_label = tk.Label(self, text="Invoice reference", bg="#ffe4e1")
+        self.invoice_number_text_input_label.grid(row=0, column=0, columnspan=3, padx=s.GUI_invoice_padx, pady=s.GUI_invoice_pady, sticky=tk.NSEW)
         
-    def run(self):
-        
-        #Creates menu 
-        self.menu_bar = tk.Menu(self.root)
-        self.root.config(menu=self.menu_bar)
-        
-        invoice_menu = tk.Menu(self.menu_bar)
-        self.menu_bar.add_cascade(label='Invoices', menu=invoice_menu)
-        invoice_menu.add_command(label="Import..")
-        
-        customer_menu = tk.Menu(self.menu_bar)
-        self.menu_bar.add_cascade(label='Customer', menu=customer_menu)
-        
-        settings_menu = tk.Menu(self.menu_bar)
-        self.menu_bar.add_cascade(label='Settings', menu=settings_menu)
-        
-        help_menu = tk.Menu(self.menu_bar)
-        self.menu_bar.add_cascade(label='Help', menu=help_menu)
-        
-        #Invoice number input
-        self.invoice_number_text_input_label = tk.Label(self.root, text="Invoice reference", bg="#ffe4e1", anchor=tk.W)
-        self.invoice_number_text_input_label.place(relx=0.066, rely=0.147, relw=0.266, relh=0.03)
-        
-        self.invoice_number_text_input = tk.Entry(self.root, bg="white")
-        self.invoice_number_text_input.place(relx=0.066, rely=0.177, relw=0.266, relh=0.06)
+        self.invoice_number_text_input = tk.Entry(self, bg="white")
+        self.invoice_number_text_input.grid(row=1, column=0, columnspan=3, padx=s.GUI_invoice_padx, pady=s.GUI_invoice_pady, sticky=tk.NSEW)
         
         #Invoice mention 
-        self.invoice_mention_text_input_label = tk.Label(self.root, text="Invoice metion", bg="#ffe4e1", anchor=tk.W)
-        self.invoice_mention_text_input_label.place(relx=0.066, rely=0.265, relw=0.266, relh=0.03)
+        self.invoice_mention_text_input_label = tk.Label(self, text="Invoice metion", bg="#ffe4e1")
+        self.invoice_mention_text_input_label.grid(row=2, column=0, columnspan=3, padx=s.GUI_invoice_padx, pady=s.GUI_invoice_pady, sticky=tk.NSEW)
         
-        self.invoice_mention_text_input = tk.Entry(self.root, bg="white")
-        self.invoice_mention_text_input.place(relx=0.066, rely=0.295, relw=0.266, relh=0.06)
+        self.invoice_mention_text_input = tk.Entry(self, bg="white")
+        self.invoice_mention_text_input.grid(row=3, column=0, columnspan=3, padx=s.GUI_invoice_padx, pady=s.GUI_invoice_pady, sticky=tk.NSEW)
 
         #Invoice choose customer button 
-        self.load_customer_button = tk.Button(self.root, command=self.app.gui_choose_customer.run)
-        self.load_customer_button.place(relx=0.066, rely=0.414, relw=0.266, relh=0.06)
+        self.load_customer_button = tk.Button(self, command=self.app.GUI_choose_customer)
+        self.load_customer_button.grid(row=4, column=0, columnspan=3, padx=s.GUI_invoice_padx, pady=s.GUI_invoice_pady, sticky=tk.NSEW)
         
         self.display_customer()
         
         #Product list
-        self.product_list_label = tk.Label(self.root, text="Products", bg="#ffe4e1", anchor=tk.W)
-        self.product_list_label.place(relx=0.066, rely=0.502, relw=0.266, relh=0.03)
+        self.product_list_label = tk.Label(self, text="Products", bg="#ffe4e1")
+        self.product_list_label.grid(row=5, column=0, columnspan=1, padx=s.GUI_invoice_padx, pady=s.GUI_invoice_pady, sticky=tk.NSEW)
         
-        self.product_list = tk.Listbox(self.root)
-        self.product_list.place(relx=0.066, rely=0.532, relw=0.266, relh=0.237)
+        self.product_list = tk.Listbox(self)
+        self.product_list.grid(row=6, column=0, columnspan=3, padx=s.GUI_invoice_padx, pady=s.GUI_invoice_pady, sticky=tk.NSEW)
         
         #Add product button
-        self.product_add_button = tk.Button(self.root, text="+", command=self.app.gui_add_product_row.run)
-        self.product_add_button.place(relx=0.066+0.25, rely=0.502, relw=0.016, relh=0.03)
-        self.product_del_button = tk.Button(self.root, text="-", command=self.app.remove_product)
-        self.product_del_button.place(relx=0.066+0.23, rely=0.502, relw=0.016, relh=0.03)
+        self.product_add_button = tk.Button(self, text="+", command=self.app.GUI_create_product)
+        self.product_add_button.grid(row=5, column=1, columnspan=1, padx=s.GUI_invoice_padx, pady=s.GUI_invoice_pady, sticky=tk.NSEW)
+        self.product_del_button = tk.Button(self, text="-", command=self.app.remove_product)
+        self.product_del_button.grid(row=5, column=2, columnspan=1, padx=s.GUI_invoice_padx, pady=s.GUI_invoice_pady, sticky=tk.NSEW)
         
-        #Create invoice button
-        self.create_invoice_button = tk.Button(self.root, text="Create invoice", command=self.app.create_invoice)
-        self.create_invoice_button.place(relx=0.066, rely=0.80, relw=0.266, relh=0.06)
-        self.invoice_preview()
+        self.create_invoice_button = tk.Button(self, text="Create invoice", command=self.app.create_invoice)
+        self.create_invoice_button.grid(row=7, column=0, columnspan=3, padx=s.GUI_invoice_padx, pady=s.GUI_invoice_pady, sticky=tk.NSEW)
+        #self.invoice_preview()
         #self.app.create_invoice()
-        
 
     def display_customer(self):
         
@@ -85,39 +94,38 @@ class InvoiceMenu:
     
     def display_product_rows(self):
         
+        self.product_list.delete(0, tk.END) #Delete item from the product list ( widget )
+        
         i=1
         for product_row in self.app.product_rows:
             self.product_list.insert(i, f"{product_row.qty}x {product_row.name}({product_row.uprice})")
             i+=1
     
     def invoice_preview(self):
+        
         invoice_pdf = pymupdf.Document(".preview.pdf")
         page = invoice_pdf.load_page(0)
         pix = page.get_pixmap()
         invoice_pdf.close()
-        screen_width = int(self.root.winfo_screenwidth()/2)
-        screen_height = int(self.root.winfo_screenheight()/2)
-        (w, h) = utils.scale_widget_relative_to_window(screen_width, screen_height, 0.3, 595 , 842 )
+
+        new_height = self.preview_canvas.winfo_height()
+        new_width = int(new_height/sqrt(2))
         
-        new_width = int(screen_width*w)*2
-        new_height = int(screen_height*h)*2
-       
         self.preview_image = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
         self.preview_image = self.preview_image.resize((new_width, new_height))
         self.preview_image_tk = ImageTk.PhotoImage(self.preview_image)
         
-        self.preview_canvas.config(width=new_width, height=new_height)
         self.preview_canvas.delete("all")
-        self.preview_canvas.create_image(0, 0, image=self.preview_image_tk, anchor=tk.NW)
-        self.preview_canvas.place(relx = 0.6, rely = 0.2, relw=w, relh=h)
-        self.root.after(100, self.invoice_preview)
+        self.preview_canvas.create_image(u.centerx(self.preview_canvas, new_width), u.centery(self.preview_canvas, new_height), image=self.preview_image_tk, anchor=tk.NW)
+
+        self.preview_canvas.grid(row=0, column=3, rowspan=8, sticky=tk.NSEW)
+        self.after(100, self.invoice_preview)
         
-        
-    
     def refresh(self):
         
+        self.app.update() #update tkinter
+        
         self.display_customer()
-        self.product_list.delete(0, tk.END)
         self.display_product_rows()
         self.invoice_preview()
         

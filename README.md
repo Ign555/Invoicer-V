@@ -1,5 +1,17 @@
 To do :
 Commenter le code
+* main.py ( fait )
+* product_row.py ( fait )
+* customer ( fait )
+* GUI_add_cusotmer ( fait )
+* GUI_add_product ( fait )
+* GUI_invoice ( fait )
+* GUI_select_customer ( fait )  
+* settings
+* utils ( fait )
+* vendor ( fait ) 
+
+
 Mettre en place l'exportation des factures
 Définir des paramètre
 Mettre en place l'importation / l'expotation de client
