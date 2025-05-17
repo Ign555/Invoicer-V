@@ -14,6 +14,7 @@
 import tkinter as tk
 import os
 import csv
+import json
 import ast
 from datetime import date
 
@@ -62,9 +63,10 @@ class InvoicerV(tk.Tk):
         #Default -> mode fullscreen
         self.state('zoomed')
         
-        ##############################-Data loading-##############################
+        ##############################-Data & Settings loading-##############################
         
         #Load settings
+        self.load_settings()
         self.settings = settings.Settings()
         
         #Load customer
@@ -198,6 +200,21 @@ class InvoicerV(tk.Tk):
                 customers_csv.writerow([customer.name, str(customer.address), customer.immatriculation, customer.phone, customer.mail])
     
     ##############################-Settings files management-##############################
+    
+    def load_settings(self):
+        
+        #Check if customer file exist
+        if os.path.exists("../settings.json") == False:
+            
+            with open("../settings.json", "w", newline="") as settings_file:
+                json.dump("", settings_file)
+            
+        else:
+            
+            #load customer csv here
+            with open("../settings.json") as settings_file:
+                settings = json.load(settings_file)
+               
     
     ##############################-Export data-##############################
     
