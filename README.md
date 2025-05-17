@@ -11,8 +11,6 @@ Commenter le code
 * utils ( fait )
 * vendor ( fait ) 
 
-
-Mettre en place l'exportation des factures
 Définir des paramètre
 Mettre en place l'importation / l'expotation de client
 Faire un tableau csv donnant la liste des factures effectué

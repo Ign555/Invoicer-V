@@ -120,7 +120,7 @@ class InvoicerV(tk.Tk):
     
     def create_preview(self):
         
-        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.vendor, self.selected_customer)
+        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.vendor, self.selected_customer, self.product_rows)
         invoice.export_PDF(".preview.pdf")
         
     ##############################-Add data to app-##############################
@@ -150,7 +150,7 @@ class InvoicerV(tk.Tk):
         
     def add_product(self):
         
-        self.product_rows.append(pr.ProductRow(self.gui_add_product_row.product_quantity_input.get(), self.gui_add_product_row.product_name_input.get(), self.gui_add_product_row.product_price_input.get()))
+        self.product_rows.append(pr.ProductRow(int(self.gui_add_product_row.product_quantity_input.get()), self.gui_add_product_row.product_name_input.get(), float(self.gui_add_product_row.product_price_input.get())))
         self.gui_add_product_row.close()
         
         self.gui_invoice.refresh()
@@ -203,13 +203,13 @@ class InvoicerV(tk.Tk):
     
     def create_invoice(self):
         
-        files = [('All Files', '*.*'), 
-             ('Python Files', '*.py'),
-             ('Text Document', '*.txt')]
-        file = tk.filedialog.asksaveasfile(filetypes = files, defaultextension = files)
-
-        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.vendor, self.selected_customer)
-        invoice.export_PDF()
+        #Ask user where does he want to save the file
+        files = [('All files', '*.*'), ('PDF Files', '*.pdf')]
+        file = tk.filedialog.asksaveasfilename(filetypes = files, defaultextension = files)
+        
+        #Create the pdf invoice and save it
+        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.vendor, self.selected_customer, self.product_rows)
+        invoice.export_PDF(file)
         
     def close(self):
             
