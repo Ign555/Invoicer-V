@@ -84,7 +84,7 @@ class Invoice(FPDF):
         
         self.ln()
         
-        #Vendor and customer Pphone
+        #Vendor and customer phone
         self.cell(90, 5, f"{self.vendor.phone}", 0, align="L")
         
         self.ln(10)

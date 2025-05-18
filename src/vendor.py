@@ -26,7 +26,7 @@ class Vendor:
     phone = ""
     mail = ""
         
-    def __init__(self, vname="", vaddress="", vimmatriculation="", vphone="", vmail=""):
+    def __init__(self, vname="", vimmatriculation="", vaddress="", vphone="", vmail=""):
         
         #Set attributes values
         self.name = vname

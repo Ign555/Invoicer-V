@@ -12,11 +12,12 @@
 """
 
 import tkinter as tk
-import os
 import csv
-import json
+import os
 import ast
 from datetime import date
+
+import settings
 
 import GUI_invoice as invoice_gui
 import GUI_select_customer as select_customer_gui
@@ -66,7 +67,6 @@ class InvoicerV(tk.Tk):
         ##############################-Data & Settings loading-##############################
         
         #Load settings
-        self.load_settings()
         self.settings = settings.Settings()
         
         #Load customer
@@ -122,7 +122,7 @@ class InvoicerV(tk.Tk):
     
     def create_preview(self):
         
-        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.vendor, self.selected_customer, self.product_rows)
+        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.settings.vendor, self.selected_customer, self.product_rows)
         invoice.export_PDF(".preview.pdf")
         
     ##############################-Add data to app-##############################
@@ -198,24 +198,7 @@ class InvoicerV(tk.Tk):
             
             for customer in self.customers:
                 customers_csv.writerow([customer.name, str(customer.address), customer.immatriculation, customer.phone, customer.mail])
-    
-    ##############################-Settings files management-##############################
-    
-    def load_settings(self):
-        
-        #Check if customer file exist
-        if os.path.exists("../settings.json") == False:
-            
-            with open("../settings.json", "w", newline="") as settings_file:
-                json.dump("", settings_file)
-            
-        else:
-            
-            #load customer csv here
-            with open("../settings.json") as settings_file:
-                settings = json.load(settings_file)
-               
-    
+   
     ##############################-Export data-##############################
     
     def create_invoice(self):
@@ -225,7 +208,7 @@ class InvoicerV(tk.Tk):
         file = tk.filedialog.asksaveasfilename(filetypes = files, defaultextension = files)
         
         #Create the pdf invoice and save it
-        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.vendor, self.selected_customer, self.product_rows)
+        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.settings.vendor, self.selected_customer, self.product_rows)
         invoice.export_PDF(file)
         
     def close(self):
