@@ -12,6 +12,7 @@
 """
 
 import tkinter as tk 
+import styles
 
 """
 *
@@ -25,7 +26,7 @@ class AddNewCustomerGUI(tk.Toplevel):
         
         ##############################-Toplevel init-##############################
         
-        super().__init__(app, bg="white")
+        super().__init__(app, bg=styles.COLORS["window_background"])
         
         ##############################-Set Class Attributes-##############################
         
@@ -60,64 +61,64 @@ class AddNewCustomerGUI(tk.Toplevel):
         ##############################-Set GUI Widgets-##############################
         
         #Customer name feild label
-        self.customer_name_label = tk.Label(self, text="Customer name", bg='#ffe4e1', anchor=tk.W)
-        self.customer_name_label.grid(row=0, column=0)
+        self.customer_name_label = tk.Label(self, text="Customer name", bg=styles.COLORS["window_background"], anchor=tk.W)
+        self.customer_name_label.grid(row=0, column=0, padx=styles.GUI_AC_padx, pady=styles.GUI_AC_pady, sticky=tk.NSEW)
         
         #Customer name feild
         self.customer_name = tk.Entry(self)
-        self.customer_name.grid(row=1, column=0)
+        self.customer_name.grid(row=1, column=0, padx=styles.GUI_AC_padx, pady=styles.GUI_AC_pady, sticky=tk.NSEW)
         
         #Customer immatriculation label
-        self.customer_immatriculation_label = tk.Label(self, text="Customer Immatriculation", bg='#ffe4e1', anchor=tk.W)
-        self.customer_immatriculation_label.grid(row=0, column=1)
+        self.customer_immatriculation_label = tk.Label(self, text="Customer Immatriculation", bg=styles.COLORS["window_background"], anchor=tk.W)
+        self.customer_immatriculation_label.grid(row=0, column=1, padx=styles.GUI_AC_padx, pady=styles.GUI_AC_pady, sticky=tk.NSEW)
         
         #Customer immatriculation feild
         self.customer_immatriculation = tk.Entry(self)
-        self.customer_immatriculation.grid(row=1, column=1)
+        self.customer_immatriculation.grid(row=1, column=1, padx=styles.GUI_AC_padx, pady=styles.GUI_AC_pady, sticky=tk.NSEW)
         
         #Customer street label
-        self.customer_street_label = tk.Label(self, text="Customer street", bg='#ffe4e1', anchor=tk.W)
-        self.customer_street_label.grid(row=2, column=0, columnspan=2)
+        self.customer_street_label = tk.Label(self, text="Customer street", bg=styles.COLORS["window_background"], anchor=tk.W)
+        self.customer_street_label.grid(row=2, column=0, columnspan=2, padx=styles.GUI_AC_padx, pady=styles.GUI_AC_pady, sticky=tk.NSEW)
         
         #Customer street feild
         self.customer_street = tk.Entry(self)
-        self.customer_street.grid(row=3, column=0, columnspan=2)
+        self.customer_street.grid(row=3, column=0, columnspan=2, padx=styles.GUI_AC_padx, pady=styles.GUI_AC_pady, sticky=tk.NSEW)
         
         #Customer city label
-        self.customer_city_label = tk.Label(self, text="Customer city", bg='#ffe4e1', anchor=tk.W)
-        self.customer_city_label.grid(row=4, column=0)
+        self.customer_city_label = tk.Label(self, text="Customer city", bg=styles.COLORS["window_background"], anchor=tk.W)
+        self.customer_city_label.grid(row=4, column=0, padx=styles.GUI_AC_padx, pady=styles.GUI_AC_pady, sticky=tk.NSEW)
         
         #Customer city feild
         self.customer_city = tk.Entry(self)
-        self.customer_city.grid(row=5, column=0)
+        self.customer_city.grid(row=5, column=0, padx=styles.GUI_AC_padx, pady=styles.GUI_AC_pady, sticky=tk.NSEW)
         
         #Customer postcode label
-        self.customer_postcode_label = tk.Label(self, text="Postcode", bg='#ffe4e1', anchor=tk.W)
-        self.customer_postcode_label.grid(row=4, column=1)
+        self.customer_postcode_label = tk.Label(self, text="Postcode", bg=styles.COLORS["window_background"], anchor=tk.W)
+        self.customer_postcode_label.grid(row=4, column=1, padx=styles.GUI_AC_padx, pady=styles.GUI_AC_pady, sticky=tk.NSEW)
         
         #Customer postcode feild
         self.customer_postcode = tk.Entry(self)
-        self.customer_postcode.grid(row=5, column=1)
+        self.customer_postcode.grid(row=5, column=1, padx=styles.GUI_AC_padx, pady=styles.GUI_AC_pady, sticky=tk.NSEW)
         
         #Customer phone label
-        self.customer_phone_label = tk.Label(self, text="Customer phone", bg='#ffe4e1', anchor=tk.W)
-        self.customer_phone_label.grid(row=6, column=0)
+        self.customer_phone_label = tk.Label(self, text="Customer phone", bg=styles.COLORS["window_background"], anchor=tk.W)
+        self.customer_phone_label.grid(row=6, column=0, padx=styles.GUI_AC_padx, pady=styles.GUI_AC_pady, sticky=tk.NSEW)
         
         #Customer phone feild
         self.customer_phone = tk.Entry(self)
-        self.customer_phone.grid(row=7, column=0)
+        self.customer_phone.grid(row=7, column=0, padx=styles.GUI_AC_padx, pady=styles.GUI_AC_pady, sticky=tk.NSEW)
         
         #Customer mail label
-        self.customer_email_label = tk.Label(self, text="Customer mail", bg='#ffe4e1', anchor=tk.W)
-        self.customer_email_label.grid(row=6, column=1)
+        self.customer_email_label = tk.Label(self, text="Customer mail", bg=styles.COLORS["window_background"], anchor=tk.W)
+        self.customer_email_label.grid(row=6, column=1, padx=styles.GUI_AC_padx, pady=styles.GUI_AC_pady, sticky=tk.NSEW)
         
         #Customer mail feild
         self.customer_email = tk.Entry(self)
-        self.customer_email.grid(row=7, column=1)
+        self.customer_email.grid(row=7, column=1, padx=styles.GUI_AC_padx, pady=styles.GUI_AC_pady, sticky=tk.NSEW)
         
         #Add button
         self.add_button = tk.Button(self, text="Add", command=self.app.add_new_customer)
-        self.add_button.grid(row=8, column=0, columnspan=2)
+        self.add_button.grid(row=8, column=0, padx=styles.GUI_AC_padx, pady=styles.GUI_AC_pady, columnspan=2, sticky=tk.NSEW)
         
     def close(self):
         

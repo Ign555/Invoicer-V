@@ -12,6 +12,7 @@
 """
 
 import tkinter as tk
+import styles
 
 """
 *
@@ -25,7 +26,7 @@ class AddProductMenu(tk.Toplevel):
         
         ##############################-Toplevel init-##############################
         
-        super().__init__(app, bg="white")
+        super().__init__(app, bg=styles.COLORS["window_background"])
         
         ##############################-Set Class Attributes-##############################
         
@@ -61,7 +62,7 @@ class AddProductMenu(tk.Toplevel):
         
         #Product name input
         self.product_name_input = tk.Entry(self, bg="white")
-        self.product_name_input.grid(row=1, column=0, columnspan=2)
+        self.product_name_input.grid(row=1, column=0, columnspan=2, padx=styles.GUI_AP_padx, pady=styles.GUI_AP_pady, sticky=tk.NSEW)
         
         #Product price label
         self.product_price_input_label = tk.Label(self, bg="#ffe4e1", anchor=tk.W, text="Price")
@@ -69,7 +70,7 @@ class AddProductMenu(tk.Toplevel):
         
         #Product price input
         self.product_price_input = tk.Spinbox(self, bg="white", from_=0, to=99999, increment=0.01)
-        self.product_price_input.grid(row=3, column=0)
+        self.product_price_input.grid(row=3, column=0, padx=styles.GUI_AP_padx, pady=styles.GUI_AP_pady, sticky=tk.NSEW)
         
         #Product quantity label
         self.product_quantity_input_label = tk.Label(self, bg="#ffe4e1", anchor=tk.W, text="Qty")
@@ -77,11 +78,11 @@ class AddProductMenu(tk.Toplevel):
         
         #Product quantity input
         self.product_quantity_input = tk.Spinbox(self, bg="white", from_=0, to=99999, increment=1)
-        self.product_quantity_input.grid(row=3, column=1)
+        self.product_quantity_input.grid(row=3, column=1, padx=styles.GUI_AP_padx, pady=styles.GUI_AP_pady, sticky=tk.NSEW)
         
         #Add button
         self.add_product_button = tk.Button(self, text="Add", command=self.app.add_product)
-        self.add_product_button.grid(row=4, column=0, columnspan=2)
+        self.add_product_button.grid(row=4, column=0, columnspan=2, padx=styles.GUI_AP_padx, pady=styles.GUI_AP_pady, sticky=tk.NSEW)
         
     def close(self):
         

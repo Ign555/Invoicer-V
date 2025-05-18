@@ -40,6 +40,16 @@ GUI_invoice_pady = 10
 GUI_SC_padx = 10
 GUI_SC_pady = 10
 
+##############################-Add customers GUI-##############################
+
+GUI_AC_padx = 10
+GUI_AC_pady = 10
+
+##############################-Add products GUI-##############################
+
+GUI_AP_padx = 10
+GUI_AP_pady = 10
+
 """
 *
 * Size

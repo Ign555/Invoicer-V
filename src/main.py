@@ -67,7 +67,7 @@ class InvoicerV(tk.Tk):
         ##############################-Data & Settings loading-##############################
         
         #Load settings
-        self.settings = settings.Settings()
+        self.cfg = settings.Settings()
         
         #Load customer
         self.load_customer()
@@ -122,7 +122,7 @@ class InvoicerV(tk.Tk):
     
     def create_preview(self):
         
-        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.settings.vendor, self.selected_customer, self.product_rows)
+        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.cfg.vendor, self.selected_customer, self.product_rows)
         invoice.export_PDF(".preview.pdf")
         
     ##############################-Add data to app-##############################
@@ -208,7 +208,7 @@ class InvoicerV(tk.Tk):
         file = tk.filedialog.asksaveasfilename(filetypes = files, defaultextension = files)
         
         #Create the pdf invoice and save it
-        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.settings.vendor, self.selected_customer, self.product_rows)
+        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.cfg.vendor, self.selected_customer, self.product_rows)
         invoice.export_PDF(file)
         
     def close(self):
