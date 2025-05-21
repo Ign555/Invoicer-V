@@ -78,8 +78,6 @@ class InvoiceMenu(tk.Frame):
         
         self.create_invoice_button = tk.Button(self, text="Create invoice", command=self.app.create_invoice)
         self.create_invoice_button.grid(row=7, column=0, columnspan=3, padx=styles.GUI_invoice_padx, pady=styles.GUI_invoice_pady, sticky=tk.NSEW)
-        #self.invoice_preview()
-        #self.app.create_invoice()
 
     def display_customer(self):
         

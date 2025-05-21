@@ -104,7 +104,10 @@ class InvoicerV(tk.Tk):
         
         #Load invoice making gui
         self.gui_invoice = invoice_gui.InvoiceMenu(self)
-
+        
+        #Refresh it before running
+        self.gui_invoice.refresh()
+        
         self.is_running = True 
         
     ##############################-Invoke app GUI-##############################
@@ -133,10 +136,12 @@ class InvoicerV(tk.Tk):
         customer_address = {"street" : self.gui_add_new_customer.customer_street.get(), "city" : self.gui_add_new_customer.customer_city.get(), "postcode" : self.gui_add_new_customer.customer_postcode.get()}
         customer_immatriculation = self.gui_add_new_customer.customer_immatriculation.get()
         
-        self.customers.append(cr.Customer(customer_name, customer_address, customer_immatriculation))  
-        self.gui_add_new_customer.close()
-        
-        self.gui_choose_customer.refresh()
+        if customer_name != "":
+            self.customers.append(cr.Customer(customer_name, customer_address, customer_immatriculation))  
+            self.gui_add_new_customer.close()
+            self.gui_choose_customer.refresh()
+        else:
+            self.incomplete_form_message_box("Un client droit au moins avoir un nom")
     
     ##############################-Edit invoice informations-##############################
     
@@ -152,13 +157,20 @@ class InvoicerV(tk.Tk):
         
     def add_product(self):
         
-        self.product_rows.append(pr.ProductRow(int(self.gui_add_product_row.product_quantity_input.get()), self.gui_add_product_row.product_name_input.get(), float(self.gui_add_product_row.product_price_input.get())))
-        self.gui_add_product_row.close()
+        p_qty_str = self.gui_add_product_row.product_quantity_input.get()
+        p_name = self.gui_add_product_row.product_name_input.get()
+        p_price_str = self.gui_add_product_row.product_price_input.get()
         
-        self.gui_invoice.refresh()
+        if p_qty_str != "" and p_name != "" and p_price_str != "":
+            self.product_rows.append(pr.ProductRow(int(p_qty_str), p_name, float(p_price_str)))
+            self.gui_add_product_row.close()
+            self.gui_invoice.refresh()
+        else:
+            ms_message = "Vous devez remplir tout les champs avant d'enregistrer un nouveau produit"
+            self.incomplete_form_message_box(ms_message)
     
     def remove_product(self):
-        
+    
         if(len(self.gui_invoice.product_list.curselection()) > 0):
             self.product_rows.pop((self.gui_invoice.product_list.curselection()[0]))
         
@@ -173,7 +185,6 @@ class InvoicerV(tk.Tk):
         if os.path.exists("../data/customers.csv") == False:
             
             if os.path.exists("../data") == False:
-                
                 os.mkdir("../data")
            
             with open("../data/customers.csv", "w", newline="") as customers_file:
@@ -191,7 +202,7 @@ class InvoicerV(tk.Tk):
     def save_customer(self):
             
         with open("../data/customers.csv", "w") as customers_file:
-            
+
             customers_csv = csv.writer(customers_file, delimiter=";")
             
             customers_csv.writerow(["name", "address", "immatriculation", "phone", "email"])
@@ -210,7 +221,14 @@ class InvoicerV(tk.Tk):
         #Create the pdf invoice and save it
         invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.cfg.vendor, self.selected_customer, self.product_rows)
         invoice.export_PDF(file)
-        
+    
+    ##############################-Tools-##############################
+    
+    def incomplete_form_message_box(self, message=""):
+        tk.messagebox.showwarning(message=message, title="Formulaire incomplet")
+    
+    ##############################-Close app-##############################
+    
     def close(self):
             
           self.save_customer()

@@ -11,11 +11,11 @@ Commenter le code
 * utils ( fait )
 * vendor ( fait ) 
 
-Définir des paramètre
+Faire du multilangue
+Mettre les contacts dans la facture
+Demander un nom pour le vendeur si il est vide ( au démarage ) 
 Mettre en place l'importation / l'expotation de client
 Faire un tableau csv donnant la liste des factures effectué
-Empêcher l'ajout d'un client avec un nom vide
-Empêcher l'ajout d'une ligne sans que les trois input soit remplis
 
 
 Faire Améliorer l'interface graphique
