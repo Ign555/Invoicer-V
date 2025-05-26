@@ -1,23 +1,44 @@
-To do :
-Commenter le code
-* main.py ( fait )
-* product_row.py ( fait )
-* customer ( fait )
-* GUI_add_cusotmer ( fait )
-* GUI_add_product ( fait )
-* GUI_invoice ( fait )
-* GUI_select_customer ( fait )  
-* settings
-* utils ( fait )
-* vendor ( fait ) 
+# Invoicer-V software guide  
 
-Faire du multilangue
-Mettre les contacts dans la facture
-Demander un nom pour le vendeur si il est vide ( au démarage ) 
-Mettre en place l'importation / l'expotation de client
-Faire un tableau csv donnant la liste des factures effectué
+## Information  
 
+This software is provided by myself. At the beginning, it was just a project for training myself with python.
+Usualy, I only program in C/C++ that why doing this app was a greate experience for me.
+Today, this app a tool that I could use sometimes to make invoice.
 
-Faire Améliorer l'interface graphique
+Please, if you use it, do not remove my credits  
 
-Publier le projets
+## Install  
+
+( have to be written, setup not made)
+
+## Minimal requierement   
+
+A computer with Windows, Mac or Linux on it.  
+If you use it with the sources, you should install Python 3.  
+
+## Use  
+
+In order to use this application, follow the instruction follow at the start.
+
+( have to be extended )
+
+## Changelog  
+
+26/05/2025 : Create the readme and put the repo in public
+
+Between : Add ```LICENSE.md```
+
+10/04/2025 : Project creation
+
+## To do list  
+
+* Make a settings menu  
+* Add multilanguage  
+* Contact information into the invoice  
+* Add the possibility to switch between quote and invoice  
+* Make default configuration if started for the first time  
+* Add customer import / export   
+* Make a csv tab that store the old invoice data
+* Enhance GUI
+* Make a release
