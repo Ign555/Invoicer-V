@@ -30,7 +30,16 @@ class Settings:
     def __init__(self):
         
         self.__load_settings()
-       
+     
+    def save(self):
+        
+        self.__set_vendor(self.vendor.name, self.vendor.immatriculation, self.vendor.address, self.vendor.phone, self.vendor.mail)
+        self.__set_currency()
+        self.__set_lang()
+        
+        with open("../settings.json", "w", newline="") as settings_file:
+            self.settings_json = json.dump(self.settings_json, settings_file)
+        
     ##############################-Settings file management-##############################
     
     def __load_settings(self):

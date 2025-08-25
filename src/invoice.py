@@ -16,7 +16,7 @@ class Invoice(FPDF):
     
     info = ""
     
-    def __init__(self, number, date, vendor, customer, product_rows=[]):
+    def __init__(self, number, date, vendor, customer, product_rows=[], bottom_mention=""):
         
         ##############################-PDF init-##############################
         
@@ -29,6 +29,7 @@ class Invoice(FPDF):
         self.number = number
         self.date = date
         self.product_rows = product_rows
+        self.bottom_mention = bottom_mention
         
     ##############################-Edit Invoice information-##############################
     
@@ -86,6 +87,13 @@ class Invoice(FPDF):
         
         #Vendor and customer phone
         self.cell(90, 5, f"{self.vendor.phone}", 0, align="L")
+        self.cell(90, 5, f"{self.customer.phone}", 0, align="R")
+        
+        self.ln()
+        
+        #Vendor and customer mail
+        self.cell(90, 5, f"{self.vendor.mail}", 0, align="L")
+        self.cell(90, 5, f"{self.customer.mail}", 0, align="R")
         
         self.ln(10)
         
@@ -133,6 +141,13 @@ class Invoice(FPDF):
         
         self.set_font("DejaVu", "", 8)
         self.cell(190, 10, self.info, ln=True, align="C")
+        
+        self.ln(20)
+        
+        self.set_font("DejaVu", "", 8)
+        self.cell(180, 10, self.bottom_mention, ln=True, align="C")
+        
+        ##############################-Invoice mention-##############################
         
     def export_PDF(self, name=""):
 

@@ -14,7 +14,7 @@ Please, if you use it, do not remove my credits
 
 ## Minimal requierement   
 
-Electricity ( very importent this one ) 
+Electricity ( this one is very important ) 
 A computer with Windows, Mac or Linux.  
 If you use it with the sources, you should install Python 3.  
 
@@ -26,7 +26,9 @@ In order to use this application, follow the instruction follow at the start.
 
 ## Changelog  
 
-26/05/2025 : Create the readme and put the repo in public
+25/08/2025 : Make settings menu, edit customer menu, add contact information in invoice, add bottom mention in invoice
+
+26/05/2025 : Create the readme and put the repo in public  
 
 Between : Add ```LICENSE.md```
 
@@ -36,7 +38,6 @@ Between : Add ```LICENSE.md```
 
 * Make a settings menu  
 * Add multilanguage  
-* Contact information into the invoice  
 * Add the possibility to switch between quote and invoice  
 * Make default configuration if started for the first time  
 * Add customer import / export   

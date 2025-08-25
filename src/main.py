@@ -17,12 +17,12 @@ import os
 import ast
 from datetime import date
 
-import settings
-
 import GUI_invoice as invoice_gui
 import GUI_select_customer as select_customer_gui
 import GUI_add_product as add_product_gui
 import GUI_add_customer as add_customer_gui
+import GUI_edit_vendor as edit_vendor_gui
+import GUI_settings as settings_gui
 
 import invoice as iv
 import customer as cr
@@ -42,7 +42,6 @@ class InvoicerV(tk.Tk):
     customers = []
     product_rows = []
     selected_customer = cr.Customer()
-    vendor = v.Vendor()
     
     def __init__(self):
         
@@ -92,10 +91,11 @@ class InvoicerV(tk.Tk):
         self.menu_bar.add_cascade(label='Customer', menu=self.customer_menu)
         
         self.vendor_menu = tk.Menu(self.menu_bar)
+        self.vendor_menu.add_command(label="Edit..", command=self.GUI_edit_vendor)
         self.menu_bar.add_cascade(label='Company', menu=self.vendor_menu)
-        self.vendor_menu.add_command(label="Edit..")
         
         self.settings_menu = tk.Menu(self.menu_bar)
+        self.settings_menu.add_command(label="Edit", command=self.GUI_settings)
         self.menu_bar.add_cascade(label='Settings', menu=self.settings_menu)
         
         self.help_menu = tk.Menu(self.menu_bar)
@@ -120,12 +120,18 @@ class InvoicerV(tk.Tk):
     
     def GUI_create_customer(self):
         self.gui_add_new_customer = add_customer_gui.AddNewCustomerGUI(self)
-    
+        
+    def GUI_edit_vendor(self):
+        self.gui_edit_vendor = edit_vendor_gui.EditVendorGUI(self)
+        
+    def GUI_settings(self):
+        self.gui_settings = settings_gui.SettingsGUI(self)
+        
     ##############################-Edit app GUI-##############################
     
     def create_preview(self):
         
-        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.cfg.vendor, self.selected_customer, self.product_rows)
+        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.cfg.vendor, self.selected_customer, self.product_rows, self.gui_invoice.invoice_mention_text_input.get())
         invoice.export_PDF(".preview.pdf")
         
     ##############################-Add data to app-##############################
@@ -135,13 +141,35 @@ class InvoicerV(tk.Tk):
         customer_name = self.gui_add_new_customer.customer_name.get()
         customer_address = {"street" : self.gui_add_new_customer.customer_street.get(), "city" : self.gui_add_new_customer.customer_city.get(), "postcode" : self.gui_add_new_customer.customer_postcode.get()}
         customer_immatriculation = self.gui_add_new_customer.customer_immatriculation.get()
+        customer_phone = self.gui_add_new_customer.customer_phone.get()
+        customer_email = self.gui_add_new_customer.customer_email.get()
         
         if customer_name != "":
-            self.customers.append(cr.Customer(customer_name, customer_address, customer_immatriculation))  
+            self.customers.append(cr.Customer(customer_name, customer_address, customer_immatriculation, customer_phone, customer_email))  
             self.gui_add_new_customer.close()
             self.gui_choose_customer.refresh()
         else:
-            self.incomplete_form_message_box("Un client droit au moins avoir un nom")
+            self.incomplete_form_message_box("Un client doit au moins avoir un nom")
+     
+    ##############################-edit data to app-##############################
+    
+    def edit_vendor(self):
+
+        vendor_name = self.gui_edit_vendor.vendor_name.get()
+        vendor_address = {"street" : self.gui_edit_vendor.vendor_street.get(), "city" : self.gui_edit_vendor.vendor_city.get(), "postcode" : self.gui_edit_vendor.vendor_postcode.get()}
+        vendor_immatriculation = self.gui_edit_vendor.vendor_immatriculation.get()
+        vendor_phone = self.gui_edit_vendor.vendor_phone.get()
+        vendor_email = self.gui_edit_vendor.vendor_email.get()
+        
+        
+        if vendor_name != "":
+            self.cfg.vendor = v.Vendor(vendor_name, vendor_immatriculation, vendor_address, vendor_phone, vendor_email)
+            self.gui_edit_vendor.close()
+            self.create_preview()
+            self.gui_invoice.refresh()
+            self.cfg.save()
+        else:
+            self.incomplete_form_message_box("Un vendeur doit au moins avoir un nom")
     
     ##############################-Edit invoice informations-##############################
     
@@ -197,7 +225,7 @@ class InvoicerV(tk.Tk):
             with open("../data/customers.csv") as customers_file:
                 customers_list = csv.DictReader(customers_file, delimiter=";")
                 for customer in customers_list:
-                        self.customers.append(cr.Customer(customer['name'], ast.literal_eval(customer['address']), customer['immatriculation']))  
+                        self.customers.append(cr.Customer(customer['name'], ast.literal_eval(customer['address']), customer['immatriculation'], customer['phone'], customer['email']))  
         
     def save_customer(self):
             
@@ -219,7 +247,7 @@ class InvoicerV(tk.Tk):
         file = tk.filedialog.asksaveasfilename(filetypes = files, defaultextension = files)
         
         #Create the pdf invoice and save it
-        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.cfg.vendor, self.selected_customer, self.product_rows)
+        invoice = iv.Invoice(self.gui_invoice.invoice_number_text_input.get(), date.today(), self.cfg.vendor, self.selected_customer, self.product_rows, self.gui_invoice.invoice_mention_text_input.get())
         invoice.export_PDF(file)
     
     ##############################-Tools-##############################

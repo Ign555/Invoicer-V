@@ -41,4 +41,3 @@ class Vendor:
         else:
             self.is_defined = True
     
-    
