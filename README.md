@@ -14,9 +14,9 @@ Please, if you use it, do not remove my credits
 
 ## Minimal requierement   
 
-Electricity ( this one is very important ) 
-A computer with Windows, Mac or Linux.  
-If you use it with the sources, you should install Python 3.  
+*Electricity ( this one is very important )
+*A computer with Windows, Mac or Linux.  
+*If you use it with the sources, you should install Python 3.  
 
 ## Use  
 
